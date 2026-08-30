@@ -1,0 +1,84 @@
+body {
+    background: #111827;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 40px;
+}
+
+h1 {
+    font-size: 42px;
+    margin-bottom: 30px;
+}
+
+#ranking {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+#ranking li {
+    background: #1f2937;
+    margin: 12px 0;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 22px;
+    text-align: left;
+}
+#ranking li:nth-child(1) {
+    border-left: 8px solid gold;
+    font-size: 26px;
+}
+
+#ranking li:nth-child(2) {
+    border-left: 8px solid silver;
+    font-size: 24px;
+}
+
+#ranking li:nth-child(3) {
+    border-left: 8px solid #cd7f32;
+    font-size: 23px;
+}
+#ranking li img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 20px;
+    vertical-align: middle;
+}
+#ranking {
+    list-style: none;
+}
+#ranking li {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#ranking li .info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#ranking li .info strong {
+    font-size: 26px;
+}
+
+#ranking li .info span {
+    font-size: 18px;
+}
+#ranking li.primeiro {
+    border: 2px solid gold;
+    transform: scale(1.03);
+}
+
+#ranking li.segundo {
+    border: 2px solid silver;
+}
+
+#ranking li.terceiro {
+    border: 2px solid #cd7f32;
+}
