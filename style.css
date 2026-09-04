@@ -16,6 +16,7 @@ h1 {
     max-width: 700px;
     margin: 0 auto;
     padding: 0;
+    list-style: none;
 }
 
 #ranking li {
@@ -25,7 +26,14 @@ h1 {
     border-radius: 12px;
     font-size: 22px;
     text-align: left;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
+
+/* TOP 3 */
+
 #ranking li:nth-child(1) {
     border-left: 8px solid gold;
     font-size: 26px;
@@ -40,6 +48,9 @@ h1 {
     border-left: 8px solid #cd7f32;
     font-size: 23px;
 }
+
+/* FOTO DOS TREINADORES */
+
 #ranking li img {
     width: 110px;
     height: 110px;
@@ -48,14 +59,8 @@ h1 {
     margin-right: 20px;
     vertical-align: middle;
 }
-#ranking {
-    list-style: none;
-}
-#ranking li {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
+
+/* INFORMAÇÕES */
 
 #ranking li .info {
     display: flex;
@@ -70,6 +75,9 @@ h1 {
 #ranking li .info span {
     font-size: 18px;
 }
+
+/* CORES DO TOP 3 */
+
 #ranking li.primeiro {
     border: 2px solid gold;
     transform: scale(1.03);
@@ -81,4 +89,64 @@ h1 {
 
 #ranking li.terceiro {
     border: 2px solid #cd7f32;
+}
+
+/* CARDS DOS JOGADORES */
+
+#ranking li.jogador {
+    border: 2px solid #60a5fa;
+    box-shadow: 0 0 18px rgba(96, 165, 250, 0.25);
+}
+
+/* ÁREA DE CONQUISTAS */
+
+#ranking li.jogador .conquistas {
+    margin-left: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    gap: 6px;
+
+    text-align: right;
+}
+
+#ranking li.jogador .conquistas strong {
+    font-size: 18px;
+}
+
+#ranking li.jogador .conquistas span {
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+/* LISTA DE MEDALHAS */
+
+.lista-medalhas {
+    display: flex;
+    gap: 3px;
+
+    justify-content: flex-end;
+    align-items: center;
+
+    flex-wrap: wrap;
+}
+
+/* IMAGENS DAS MEDALHAS */
+
+#ranking li .conquistas .medalha {
+    width: 36px !important;
+    height: 36px !important;
+
+    min-width: 36px !important;
+    min-height: 36px !important;
+
+    max-width: 36px !important;
+    max-height: 36px !important;
+
+    object-fit: contain;
+
+    border-radius: 0 !important;
+    margin-right: 0 !important;
 }
