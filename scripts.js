@@ -37,7 +37,7 @@ const treinadores = [
         jogador: true,
         posicaoOficial: 85,
         medalhas: [
-            "Imagens/Copa Iniciantes.webp",
+            "Imagens/Copa iniciantes.webp",
             "Imagens/Torneio Punhos de aço 2.png"
         ]
     },
