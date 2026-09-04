@@ -50,7 +50,7 @@ const treinadores = [
         jogador: true,
         posicaoOficial: 98,
         medalhas: [
-            "Imagens/Copa Iniciantes.webp",
+            "Imagens/Copa iniciantes.webp",
             "Imagens/Torneio Punhos de aço.png"
         ]
     },
@@ -63,7 +63,7 @@ const treinadores = [
         jogador: true,
         posicaoOficial: 111,
         medalhas: [
-            "Imagens/Copa Iniciantes 2.webp",
+            "Imagens/Copa iniciantes 2.webp",
             "Imagens/Torneios Punhos de aço.png"
         ]
     },
@@ -76,7 +76,7 @@ const treinadores = [
         jogador: true,
         posicaoOficial: 123,
         medalhas: [
-            "Imagens/Copa Iniciantes 1.webp",
+            "Imagens/Copa iniciantes 1.webp",
             "Imagens/Torneio Punhos de aço 3.png"
         ]
     },
@@ -89,7 +89,7 @@ const treinadores = [
         jogador: true,
         posicaoOficial: 124,
         medalhas: [
-            "Imagens/Copa Iniciantes 3.webp"
+            "Imagens/Copa iniciantes 3.webp"
         ]
     },
 
