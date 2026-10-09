@@ -25,10 +25,7 @@ const treinadores = [
     { nome: "Marnie", pokemon: "Mega Grimmsnarl", pontos: 405, imagem: "Imagens/Marnie.webp" },
     { nome: "Sawyer", pokemon: "Mega Sceptile", pontos: 400, imagem: "Imagens/Sawyer.webp" },
 
-    // =========================
     // JOGADORES
-    // =========================
-
     {
         nome: "Bibi",
         pokemon: "Vivillon",
@@ -41,7 +38,6 @@ const treinadores = [
             "Imagens/Torneio Punhos de aço 2.png"
         ]
     },
-
     {
         nome: "Hana",
         pokemon: "Lucario",
@@ -54,7 +50,6 @@ const treinadores = [
             "Imagens/Torneio Punhos de aço.png"
         ]
     },
-
     {
         nome: "Verso",
         pokemon: "Donphan",
@@ -67,7 +62,6 @@ const treinadores = [
             "Imagens/Torneios Punhos de aço.png"
         ]
     },
-
     {
         nome: "Hiro",
         pokemon: "Frogadier",
@@ -80,7 +74,6 @@ const treinadores = [
             "Imagens/Torneio Punhos de aço 3.png"
         ]
     },
-
     {
         nome: "Match",
         pokemon: "Larvesta",
@@ -92,7 +85,6 @@ const treinadores = [
             "Imagens/Copa iniciantes 3.webp"
         ]
     },
-
     {
         nome: "Kuran",
         pokemon: "Croconaw",
@@ -106,79 +98,263 @@ const treinadores = [
     }
 ];
 
-// ORGANIZA POR PONTOS
-treinadores.sort((a, b) => b.pontos - a.pontos);
+// PARA CADASTRAR NOVAS INFORMAÇÕES EM UM TREINADOR:
+// classe: "Nome da classe",
+// pokemonsPrincipais: [
+//     { nome: "Pokémon", imagem: "Imagens/Pokemon.webp" }
+// ],
+// rivalidades: [
+//     { treinador: "Nome", texto: "História", imagem: "Imagens/Rival.webp" }
+// ],
+// insignias: ["Imagens/Insignia.webp"]
 
-// PEGA A LISTA DO HTML
 const ranking = document.getElementById("ranking");
 
-// CRIA OS CARDS
+const escapeHTML = (valor) =>
+    String(valor).replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    }[c]));
+
+treinadores.sort((a, b) => b.pontos - a.pontos);
+
+function criarFaixa(titulo, descricao, classe) {
+    const faixa = document.createElement("li");
+
+    faixa.className = `faixa-ranking ${classe}`;
+
+    faixa.innerHTML = `
+        <strong>${titulo}</strong>
+        <span>${descricao}</span>
+    `;
+
+    ranking.appendChild(faixa);
+}
+
+function criarConteudoAba(treinador, aba) {
+
+    if (aba === "pokemons") {
+        const pokemons = treinador.pokemonsPrincipais || [];
+
+        if (!pokemons.length) {
+            return '<p class="vazio">Pokémons principais serão adicionados em breve.</p>';
+        }
+
+        return `
+            <div class="galeria">
+                ${pokemons.map((p) => `
+                    <div class="mini-card">
+                        <img src="${escapeHTML(p.imagem)}"
+                             alt="${escapeHTML(p.nome)}"
+                             loading="lazy">
+                        <span>${escapeHTML(p.nome)}</span>
+                    </div>
+                `).join("")}
+            </div>
+        `;
+    }
+
+    if (aba === "rivalidades") {
+        const rivalidades = treinador.rivalidades || [];
+
+        if (!rivalidades.length) {
+            return '<p class="vazio">As rivalidades deste treinador serão reveladas em breve.</p>';
+        }
+
+        return `
+            <div class="rivalidades-lista">
+                ${rivalidades.map((r) => `
+                    <div class="rivalidade-item">
+                        ${r.imagem ? `
+                            <img src="${escapeHTML(r.imagem)}"
+                                 alt="${escapeHTML(r.treinador)}"
+                                 loading="lazy">
+                        ` : ""}
+
+                        <div>
+                            <strong>⚔️ ${escapeHTML(r.treinador)}</strong>
+                            <p>${escapeHTML(r.texto)}</p>
+                        </div>
+                    </div>
+                `).join("")}
+            </div>
+        `;
+    }
+
+    const medalhas = treinador.medalhas || [];
+    const insignias = treinador.insignias || [];
+
+    const imagens = (lista) => lista.length
+        ? `
+            <div class="galeria conquistas-galeria">
+                ${lista.map((arquivo) => `
+                    <img src="${escapeHTML(arquivo)}"
+                         alt="Conquista"
+                         loading="lazy">
+                `).join("")}
+            </div>
+        `
+        : '<p class="vazio">Nenhuma imagem cadastrada ainda.</p>';
+
+    return `
+        <div class="bloco-conquistas">
+            <h3>🏆 Troféus e medalhas</h3>
+            ${imagens(medalhas)}
+
+            <h3>🎖️ Insígnias</h3>
+            ${imagens(insignias)}
+        </div>
+    `;
+}
+
+let categoriaAnterior = "";
+
 treinadores.forEach((treinador, index) => {
 
-    const item = document.createElement("li");
-
-    // IDENTIFICA OS JOGADORES
-    if (treinador.jogador) {
-        item.classList.add("jogador");
-    }
-
-    // TOP 3
-    if (index === 0) {
-        item.classList.add("primeiro");
-    } else if (index === 1) {
-        item.classList.add("segundo");
-    } else if (index === 2) {
-        item.classList.add("terceiro");
-    }
-
-    // FOTO DO TREINADOR
-    const imagemHTML = treinador.imagem
-        ? `<img src="${treinador.imagem}" alt="${treinador.nome}">`
-        : "";
-
-    // POSIÇÃO
     const posicao = treinador.jogador
         ? treinador.posicaoOficial
         : index + 1;
 
-    // MEDALHAS
-    const medalhasHTML = treinador.medalhas
-        ? treinador.medalhas
-            .map(medalha =>
-                `<img class="medalha" src="${medalha}" alt="Medalha">`
-            )
-            .join("")
-        : "";
+    const categoria = posicao <= 10
+        ? "mundial"
+        : posicao <= 27
+            ? "qualificatorias"
+            : "disputa";
 
-    // ÁREA DE CONQUISTAS
-    const conquistasHTML = treinador.jogador
-        ? `
-            <div class="conquistas">
+    if (categoria !== categoriaAnterior) {
 
-                <strong>CONQUISTAS</strong>
+        if (categoria === "mundial") {
+            criarFaixa(
+                "🏆 CLASSIFICADOS PARA O MUNDIAL",
+                "1º ao 10º lugar",
+                "faixa-mundial"
+            );
+        }
 
-                <div class="lista-medalhas">
-                    ${medalhasHTML}
-                </div>
+        if (categoria === "qualificatorias") {
+            criarFaixa(
+                "🌍 CLASSIFICADOS PARA AS QUALIFICATÓRIAS",
+                "11º ao 27º lugar",
+                "faixa-qualificatorias"
+            );
+        }
 
-                <span>Insígnias</span>
+        if (categoria === "disputa") {
+            criarFaixa(
+                "⚔️ DISPUTANDO VAGA NAS QUALIFICATÓRIAS",
+                "28º lugar em diante",
+                "faixa-disputa"
+            );
+        }
 
-            </div>
-        `
-        : "";
+        categoriaAnterior = categoria;
+    }
 
-    // CONTEÚDO DO CARD
+    const item = document.createElement("li");
+
+    item.className = `card-treinador ${
+        treinador.jogador ? "jogador" : "npc"
+    }`;
+
+    if (posicao === 1) item.classList.add("primeiro");
+    if (posicao === 2) item.classList.add("segundo");
+    if (posicao === 3) item.classList.add("terceiro");
+
+    const abas = [
+        {
+            id: "pokemons",
+            titulo: "🐉 Pokémons Principais"
+        },
+        {
+            id: "rivalidades",
+            titulo: "⚔️ Rivalidades"
+        },
+        ...(treinador.jogador
+            ? [{ id: "conquistas", titulo: "🏅 Conquistas" }]
+            : [])
+    ];
+
+    const id = `treinador-${index}`;
+
     item.innerHTML = `
-        ${imagemHTML}
+        <div class="topo-card">
 
-        <div class="info">
-            <strong>${posicao}º — ${treinador.nome}</strong>
-            <span>Pokémon principal: ${treinador.pokemon}</span>
-            <span>${treinador.pontos} pontos</span>
+            <img class="foto-treinador"
+                 src="${escapeHTML(treinador.imagem)}"
+                 alt="${escapeHTML(treinador.nome)}"
+                 loading="lazy">
+
+            <div class="info">
+                <strong>${posicao}º — ${escapeHTML(treinador.nome)}</strong>
+
+                <span class="pokemon-destaque">
+                    Pokémon principal: ${escapeHTML(treinador.pokemon)}
+                </span>
+
+                ${treinador.classe
+                    ? `<span>Classe: ${escapeHTML(treinador.classe)}</span>`
+                    : ""}
+
+                <span class="pontuacao">
+                    ⭐ ${treinador.pontos} pontos
+                </span>
+            </div>
+
         </div>
 
-        ${conquistasHTML}
+        <div class="botoes-abas">
+            ${abas.map((aba) => `
+                <button type="button"
+                        class="botao-aba"
+                        aria-expanded="false"
+                        aria-controls="${id}-painel"
+                        data-aba="${aba.id}">
+                    ${aba.titulo}
+                    <span class="seta">▾</span>
+                </button>
+            `).join("")}
+        </div>
+
+        <div class="painel-aba"
+             id="${id}-painel"
+             hidden>
+        </div>
     `;
+
+    const painel = item.querySelector(".painel-aba");
+    const botoes = item.querySelectorAll(".botao-aba");
+
+    botoes.forEach((botao) => {
+
+        botao.addEventListener("click", () => {
+
+            const estavaAberta =
+                botao.getAttribute("aria-expanded") === "true";
+
+            botoes.forEach((b) => {
+                b.setAttribute("aria-expanded", "false");
+                b.classList.remove("ativo");
+            });
+
+            if (estavaAberta) {
+                painel.hidden = true;
+                painel.innerHTML = "";
+            } else {
+                botao.setAttribute("aria-expanded", "true");
+                botao.classList.add("ativo");
+
+                painel.innerHTML = criarConteudoAba(
+                    treinador,
+                    botao.dataset.aba
+                );
+
+                painel.hidden = false;
+            }
+        });
+    });
 
     ranking.appendChild(item);
 });
