@@ -54,7 +54,7 @@ const treinadores = [
             },
             {
                 nome: "Spiritomb",
-                imagem: PASTA_SPRITES + "Spiritomb Cynthia.gif"
+                imagem: PASTA_SPRITES + "Spirtomb Cynthia.gif"
             }
         ]
     },
