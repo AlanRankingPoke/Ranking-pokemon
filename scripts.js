@@ -1,3 +1,4 @@
+
 const P = "Imagens/";
 const S = "Imagens/Sprites/";
 const C = "Imagens/Conquistas/";
@@ -93,15 +94,33 @@ const treinadores = [
         ["Miriam", "Mega Empoleon", 409],
         ["Marnie", "Mega Grimmsnarl", 405],
         ["Sawyer", "Mega Sceptile", 400]
-    ].map(([nome, pokemon, pontos]) => treinador(nome, pokemon, pontos)),
+    ].map(([nome, pokemon, pontos]) =>
+        treinador(nome, pokemon, pontos)
+    ),
 
     ...[
-        ["Bibi", "Vivillon", 180, 85, ["Copa iniciantes.webp", "Torneio Punhos de aço 2.png"]],
-        ["Hana", "Lucario", 152, 98, ["Copa iniciantes.webp", "Torneio Punhos de aço.png"]],
-        ["Verso", "Donphan", 140, 111, ["Copa iniciantes 2.webp", "Torneios Punhos de aço.png"]],
-        ["Hiro", "Frogadier", 125, 123, ["Copa iniciantes 1.webp", "Torneio Punhos de aço 3.png"]],
-        ["Match", "Larvesta", 125, 124, ["Copa iniciantes 3.webp"]],
-        ["Kuran", "Croconaw", 80, 200, ["Torneio Punhos de aço.png"]]
+        ["Bibi", "Charizard", 190, 75, [
+            "Copa iniciantes.webp",
+            "Torneio Punhos de aço 2.png"
+        ]],
+        ["Hana", "Mega Swampert", 187, 76, [
+            "Copa iniciantes.webp",
+            "Torneio Punhos de aço.png"
+        ]],
+        ["Hiro", "Greninja", 157, 100, [
+            "Copa iniciantes 1.webp",
+            "Torneio Punhos de aço 3.png"
+        ]],
+        ["Verso", "Mega Typhlosion", 155, 101, [
+            "Copa iniciantes 2.webp",
+            "Torneios Punhos de aço.png"
+        ]],
+        ["Match", "Cinderace", 153, 102, [
+            "Copa iniciantes 3.webp"
+        ]],
+        ["Kuran", "Feraligatr", 95, 163, [
+            "Torneio Punhos de aço.png"
+        ]]
     ].map(([nome, pokemon, pontos, posicaoOficial, medalhas]) => ({
         ...treinador(nome, pokemon, pontos),
         jogador: true,
@@ -115,8 +134,11 @@ treinadores.sort((a, b) => b.pontos - a.pontos);
 const ranking = document.getElementById("ranking");
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;",
-    '"': "&quot;", "'": "&#39;"
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
 }[c]));
 
 function faixa(titulo, descricao, classe) {
@@ -176,7 +198,6 @@ function conteudo(t, aba) {
     return "";
 }
 
-// Se um sprite não carregar, tenta outras extensões.
 const extensoes = [".gif", ".png", ".webp", ".jpg"];
 
 document.addEventListener("error", evento => {
