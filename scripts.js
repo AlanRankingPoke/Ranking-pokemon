@@ -53,12 +53,18 @@ const treinadores = [
         sprite("Heracross", "Heracross Ethan")
     ]),
 
+    treinador("Alder", "Mega Volcarona", 558),
+
+    treinador("Alain", "Mega Charizard X", 549),
+
+    {
+        ...treinador("Gladion", "Mega Lycanroc", 540),
+        imagem: P + "Gladion.jpg"
+    },
+
+    treinador("Blue", "Mega Blastoise", 531),
+
     ...[
-        ["Kael", "Mega Kingdra", 558],
-        ["Magnus", "Mega Aggron", 549],
-        ["Alder", "Mega Volcarona", 540],
-        ["Alain", "Mega Charizard X", 531],
-        ["Blue", "Mega Blastoise", 522],
         ["Iris", "Mega Haxorus", 514],
         ["Silver", "Mega Gengar", 505],
         ["Paul", "Mega Electivire", 496],
