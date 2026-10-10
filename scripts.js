@@ -3,7 +3,7 @@ const P = "Imagens/";
 const S = "Imagens/Sprites/";
 const C = "Imagens/Conquistas/";
 
-// CONFIGURAÇÃO DOS POKÉMON
+// CRIAÇÃO DOS POKÉMON E TREINADORES
 
 const sprite = (nome, arquivo, alternativas = []) => ({
     nome,
@@ -20,7 +20,7 @@ const treinador = (nome, pokemon, pontos, pokemonsPrincipais = []) => ({
 });
 
 // CATÁLOGO DE INSÍGNIAS
-// Acrescente novas insígnias aqui futuramente.
+// Novas insígnias podem ser adicionadas aqui.
 
 const INSIGNIAS = {
     dragao: { nome: "Dragão", arquivo: "Dragão" },
@@ -31,7 +31,7 @@ const INSIGNIAS = {
 };
 
 // CATÁLOGO DE CAMPEONATOS
-// Acrescente novos campeonatos aqui futuramente.
+// Novos campeonatos podem ser adicionados aqui.
 
 const CAMPEONATOS = {
     iniciantes: {
@@ -49,9 +49,9 @@ const CAMPEONATOS = {
 };
 
 // CONQUISTAS DOS JOGADORES
-// 0 = participou, mas não conquistou pódio.
+// 0 = participou, mas não chegou ao pódio.
 // 1, 2, 3 = colocação.
-// Se não participou, não inclua o campeonato.
+// Campeonato ausente = não participou.
 
 const CONQUISTAS = {
     Bibi: {
@@ -107,9 +107,37 @@ const CONQUISTAS = {
     }
 };
 
+// HISTÓRIAS OFICIAIS DAS RIVALIDADES
+// Para atualizar uma rivalidade, altere o texto do treinador.
+
+const RIVALIDADES = {
+
+    Hana: `Desde o primeiro dia na Academia Pokémon, Hana e Hiro construíram uma rivalidade marcada por provocações e batalhas intensas. Com duas vitórias para cada lado, o placar permanece empatado em 2 a 2, e nenhum dos dois parece disposto a ceder.
+
+Curiosamente, Hana também considera a lendária treinadora Cynthia sua rival. O motivo? Ninguém sabe ao certo, e Hana não parece interessado em explicar.`,
+
+    Hiro: `Para Hiro, rivalidade não é uma questão de quantidade, mas de importância. Desde os primeiros dias na Academia Pokémon, Hana se tornou seu maior adversário, protagonizando confrontos intensos e uma disputa que atualmente está empatada em 2 a 2.
+
+Hiro não reconhece nenhum outro treinador como rival. Para ele, esse posto pertence exclusivamente a Hana.`,
+
+    Bibi: `A rivalidade entre Bibi e Ryo nasceu no primeiro campeonato em que se enfrentaram. Desde então, os dois desenvolveram uma relação curiosa: grandes amigos fora das arenas, mas adversários determinados quando uma batalha começa.
+
+Com Lucia Stone, a história é diferente. Após os acontecimentos do Festival Pokémon, Bibi carrega um desejo de vingança e espera ansiosamente pela oportunidade de uma revanche.
+
+Já Hiro entrou nessa lista por um motivo inusitado: o Quilladin de Bibi desenvolveu sua própria rivalidade com ele. E, aparentemente, Bibi decidiu comprar a briga de seu Pokémon!`,
+
+    Kuran: `Até o momento, Kuran não reconheceu nenhum treinador como seu rival. Em sua visão, ninguém demonstrou ser digno de ocupar esse posto.`,
+
+    Verso: `Verso ainda não anunciou nenhuma rivalidade oficial. Para ele, nenhum treinador provou merecer esse título. Resta saber quem será capaz de mudar sua opinião.`,
+
+    Match: `Match não considera ninguém seu rival atualmente. Até agora, nenhum adversário conseguiu conquistar esse reconhecimento.`
+};
+
 // RANKING COMPLETO
 
 const treinadores = [
+
+    // TOP 10 - CLASSIFICADOS PARA O MUNDIAL
 
     treinador("Red", "Mega Charizard X", 610, [
         sprite("Mega Charizard X", "Zard X Red"),
@@ -284,7 +312,7 @@ const treinadores = [
     }
 ];
 
-// ORDENAÇÃO
+// ORDENAÇÃO DO RANKING
 
 treinadores.sort((a, b) => b.pontos - a.pontos);
 
@@ -298,7 +326,7 @@ const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
     "'": "&#39;"
 }[c]));
 
-// CARREGAMENTO DE IMAGENS
+// SISTEMA DE CARREGAMENTO DE IMAGENS
 
 const extensoesSprites = [
     ".gif", ".png", ".webp", ".jpg", ".jpeg"
@@ -383,7 +411,7 @@ function faixa(titulo, descricao, classe) {
     ranking.appendChild(li);
 }
 
-// COLOCAÇÕES DOS CAMPEONATOS
+// RESULTADOS DOS CAMPEONATOS
 
 function resultadoCampeonato(posicao) {
     if (posicao === 0) {
@@ -527,6 +555,32 @@ function conteudoConquistas(t) {
     `;
 }
 
+// ABA DE RIVALIDADES - CAIXA DE TEXTO SIMPLES
+
+function conteudoRivalidades(t) {
+    const historia = RIVALIDADES[t.nome];
+
+    if (!historia) {
+        return `<p class="vazio">
+            As rivalidades deste treinador serão reveladas em breve.
+        </p>`;
+    }
+
+    return `
+        <div class="caixa-rivalidade"
+             style="
+                padding:16px;
+                border-radius:12px;
+                border:1px solid rgba(150,150,150,0.3);
+                background:rgba(128,128,128,0.08);
+                line-height:1.75;
+                font-size:14px;
+                white-space:pre-line;
+                overflow-wrap:break-word;
+             ">${esc(historia)}</div>
+    `;
+}
+
 // CONTEÚDO DAS ABAS
 
 function conteudo(t, aba) {
@@ -552,29 +606,7 @@ function conteudo(t, aba) {
     }
 
     if (aba === "rivalidades") {
-        const lista = t.rivalidades || [];
-
-        return lista.length
-            ? `<div class="rivalidades-lista">
-                ${lista.map(r => `
-                    <div class="rivalidade-item">
-                        ${r.imagem ? `
-                            <img
-                                src="${esc(r.imagem)}"
-                                alt="${esc(r.treinador)}"
-                                loading="lazy"
-                            >
-                        ` : ""}
-                        <div>
-                            <strong>⚔️ ${esc(r.treinador)}</strong>
-                            <p>${esc(r.texto)}</p>
-                        </div>
-                    </div>
-                `).join("")}
-            </div>`
-            : `<p class="vazio">
-                As rivalidades deste treinador serão reveladas em breve.
-            </p>`;
+        return conteudoRivalidades(t);
     }
 
     if (aba === "conquistas") {
