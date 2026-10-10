@@ -3,13 +3,12 @@ const P = "Imagens/";
 const S = "Imagens/Sprites/";
 const C = "Imagens/Conquistas/";
 
-// CRIAÇÃO DE SPRITES E TREINADORES
+// CONFIGURAÇÃO DOS POKÉMON
 
 const sprite = (nome, arquivo, alternativas = []) => ({
     nome,
     arquivo,
-    alternativas,
-    imagem: S + arquivo + ".gif"
+    alternativas
 });
 
 const treinador = (nome, pokemon, pontos, pokemonsPrincipais = []) => ({
@@ -20,11 +19,97 @@ const treinador = (nome, pokemon, pontos, pokemonsPrincipais = []) => ({
     pokemonsPrincipais
 });
 
+// CATÁLOGO DE INSÍGNIAS
+// Acrescente novas insígnias aqui futuramente.
+
+const INSIGNIAS = {
+    dragao: { nome: "Dragão", arquivo: "Dragão" },
+    lutador: { nome: "Lutador", arquivo: "Lutador" },
+    pedra: { nome: "Pedra", arquivo: "Pedra" },
+    planta: { nome: "Planta", arquivo: "Planta" },
+    valley: { nome: "Valley", arquivo: "Valley" }
+};
+
+// CATÁLOGO DE CAMPEONATOS
+// Acrescente novos campeonatos aqui futuramente.
+
+const CAMPEONATOS = {
+    iniciantes: {
+        nome: "Campeonato de Iniciantes",
+        arquivo: "Campeonato de Iniciantes"
+    },
+    punhos: {
+        nome: "Punhos de Ferro",
+        arquivo: "Punhos de Ferro"
+    },
+    festival: {
+        nome: "Festival Pokémon",
+        arquivo: "Festival Pokémon"
+    }
+};
+
+// CONQUISTAS DOS JOGADORES
+// 0 = participou, mas não conquistou pódio.
+// 1, 2, 3 = colocação.
+// Se não participou, não inclua o campeonato.
+
+const CONQUISTAS = {
+    Bibi: {
+        insignias: ["lutador", "planta", "pedra", "valley"],
+        campeonatos: {
+            iniciantes: 0,
+            punhos: 2,
+            festival: 0
+        }
+    },
+
+    Hana: {
+        insignias: ["planta", "dragao", "lutador", "valley"],
+        campeonatos: {
+            iniciantes: 0,
+            punhos: 0,
+            festival: 1
+        }
+    },
+
+    Hiro: {
+        insignias: ["planta", "pedra", "valley"],
+        campeonatos: {
+            iniciantes: 1,
+            punhos: 3,
+            festival: 2
+        }
+    },
+
+    Verso: {
+        insignias: ["lutador", "planta", "valley"],
+        campeonatos: {
+            iniciantes: 2,
+            punhos: 1,
+            festival: 0
+        }
+    },
+
+    Match: {
+        insignias: ["lutador", "planta", "dragao", "valley"],
+        campeonatos: {
+            iniciantes: 3,
+            festival: 3
+        }
+    },
+
+    Kuran: {
+        insignias: ["dragao", "planta"],
+        campeonatos: {
+            punhos: 0,
+            festival: 0
+        }
+    }
+};
+
 // RANKING COMPLETO
 
 const treinadores = [
-
-    // TOP 10 - MUNDIAL
 
     treinador("Red", "Mega Charizard X", 610, [
         sprite("Mega Charizard X", "Zard X Red"),
@@ -131,11 +216,7 @@ const treinadores = [
             sprite("Vivillon", "Vivillon Bibi")
         ]),
         jogador: true,
-        posicaoOficial: 75,
-        medalhas: [
-            C + "Copa iniciantes.webp",
-            C + "Torneio Punhos de aço 2.png"
-        ]
+        posicaoOficial: 75
     },
 
     {
@@ -146,11 +227,7 @@ const treinadores = [
             sprite("Corviknight", "corviknight Hana")
         ]),
         jogador: true,
-        posicaoOficial: 76,
-        medalhas: [
-            C + "Copa iniciantes.webp",
-            C + "Torneio Punhos de aço.png"
-        ]
+        posicaoOficial: 76
     },
 
     {
@@ -162,11 +239,7 @@ const treinadores = [
             sprite("Metang", "Metang Hiro")
         ]),
         jogador: true,
-        posicaoOficial: 100,
-        medalhas: [
-            C + "Copa iniciantes 1.webp",
-            C + "Torneio Punhos de aço 3.png"
-        ]
+        posicaoOficial: 100
     },
 
     {
@@ -183,11 +256,7 @@ const treinadores = [
             sprite("Bewear", "Bewear Verso")
         ]),
         jogador: true,
-        posicaoOficial: 101,
-        medalhas: [
-            C + "Copa iniciantes 2.webp",
-            C + "Torneios Punhos de aço.png"
-        ]
+        posicaoOficial: 101
     },
 
     {
@@ -198,10 +267,7 @@ const treinadores = [
             sprite("Turtonator", "turtonator Match")
         ]),
         jogador: true,
-        posicaoOficial: 102,
-        medalhas: [
-            C + "Copa iniciantes 3.webp"
-        ]
+        posicaoOficial: 102
     },
 
     {
@@ -214,10 +280,7 @@ const treinadores = [
             sprite("Ursaring", "Ursaring Kuran")
         ]),
         jogador: true,
-        posicaoOficial: 163,
-        medalhas: [
-            C + "Torneio Punhos de aço.png"
-        ]
+        posicaoOficial: 163
     }
 ];
 
@@ -235,47 +298,75 @@ const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
     "'": "&#39;"
 }[c]));
 
-// SISTEMA DE CARREGAMENTO DOS SPRITES
+// CARREGAMENTO DE IMAGENS
 
-const extensoes = [".gif", ".png", ".webp", ".jpg", ".jpeg"];
+const extensoesSprites = [
+    ".gif", ".png", ".webp", ".jpg", ".jpeg"
+];
 
-function caminhosSprite(p) {
-    const nomes = [p.arquivo, ...(p.alternativas || [])];
+const extensoesConquistas = [
+    ".png", ".webp", ".jpg", ".jpeg", ".gif"
+];
+
+function caminhosImagem(pasta, nomes, extensoes) {
     return nomes.flatMap(nome =>
-        extensoes.map(ext => S + nome + ext)
+        extensoes.map(ext => pasta + nome + ext)
     );
 }
 
-function configurarSprites(painel, t) {
-    const lista = t.pokemonsPrincipais || [];
-    const imagens = painel.querySelectorAll(".mini-card img");
+function carregarImagem(img, caminhos) {
+    let tentativa = 0;
 
-    imagens.forEach((img, i) => {
-        const p = lista[i];
-        if (!p) return;
+    img.onerror = () => {
+        tentativa++;
 
-        const caminhos = caminhosSprite(p);
-        let tentativa = 0;
+        if (tentativa < caminhos.length) {
+            img.src = caminhos[tentativa];
+        } else {
+            img.onerror = null;
+            img.alt = "Imagem não encontrada";
+            console.warn("Imagem não encontrada:", caminhos);
+        }
+    };
 
-        img.onerror = () => {
-            tentativa++;
-
-            if (tentativa < caminhos.length) {
-                img.src = caminhos[tentativa];
-            } else {
-                img.onerror = null;
-                img.alt = "Sprite não encontrado: " + p.nome;
-                console.warn(
-                    "Sprite não encontrado:",
-                    p.nome,
-                    "Arquivos tentados:",
-                    caminhos
-                );
-            }
-        };
-
+    if (caminhos.length) {
         img.src = caminhos[0];
-    });
+    }
+}
+
+function configurarImagens(painel, t, aba) {
+
+    if (aba === "pokemons") {
+        const lista = t.pokemonsPrincipais || [];
+        const imagens = painel.querySelectorAll(".mini-card img");
+
+        imagens.forEach((img, i) => {
+            const p = lista[i];
+            if (!p) return;
+
+            carregarImagem(
+                img,
+                caminhosImagem(
+                    S,
+                    [p.arquivo, ...(p.alternativas || [])],
+                    extensoesSprites
+                )
+            );
+        });
+    }
+
+    if (aba === "conquistas") {
+        painel.querySelectorAll("img[data-conquista]").forEach(img => {
+            carregarImagem(
+                img,
+                caminhosImagem(
+                    C,
+                    [img.dataset.conquista],
+                    extensoesConquistas
+                )
+            );
+        });
+    }
 }
 
 // FAIXAS DO RANKING
@@ -290,6 +381,150 @@ function faixa(titulo, descricao, classe) {
     `;
 
     ranking.appendChild(li);
+}
+
+// COLOCAÇÕES DOS CAMPEONATOS
+
+function resultadoCampeonato(posicao) {
+    if (posicao === 0) {
+        return {
+            texto: "Participou — Sem pódio",
+            cor: "#9ca3af"
+        };
+    }
+
+    const resultados = {
+        1: {
+            texto: "🥇 1º lugar — Campeão",
+            cor: "#f5c542"
+        },
+        2: {
+            texto: "🥈 2º lugar — Vice-campeão",
+            cor: "#c4ccd8"
+        },
+        3: {
+            texto: "🥉 3º lugar",
+            cor: "#d9945b"
+        }
+    };
+
+    return resultados[posicao] || {
+        texto: `${posicao}º lugar`,
+        cor: "#9ca3af"
+    };
+}
+
+// ABA DE CONQUISTAS
+
+function conteudoConquistas(t) {
+    const dados = CONQUISTAS[t.nome] || {
+        insignias: [],
+        campeonatos: {}
+    };
+
+    const insignias = dados.insignias
+        .map(id => INSIGNIAS[id])
+        .filter(Boolean);
+
+    const campeonatos = Object.entries(dados.campeonatos)
+        .filter(([id]) => CAMPEONATOS[id])
+        .map(([id, posicao]) => ({
+            ...CAMPEONATOS[id],
+            posicao
+        }));
+
+    const galeriaInsignias = insignias.length
+        ? `
+            <div class="galeria">
+                ${insignias.map(insignia => `
+                    <div class="mini-card">
+                        <img
+                            data-conquista="${esc(insignia.arquivo)}"
+                            alt="Insígnia ${esc(insignia.nome)}"
+                            loading="lazy"
+                        >
+                        <span>${esc(insignia.nome)}</span>
+                    </div>
+                `).join("")}
+            </div>
+        `
+        : `<p class="vazio">
+            Nenhuma insígnia conquistada ainda.
+        </p>`;
+
+    const galeriaCampeonatos = campeonatos.length
+        ? `
+            <div class="lista-campeonatos">
+                ${campeonatos.map(c => {
+                    const resultado = resultadoCampeonato(c.posicao);
+
+                    return `
+                        <div class="card-campeonato"
+                             style="
+                                display:flex;
+                                align-items:center;
+                                gap:14px;
+                                padding:12px;
+                                margin-bottom:12px;
+                                border:1px solid ${resultado.cor}77;
+                                border-left:4px solid ${resultado.cor};
+                                border-radius:12px;
+                                background:rgba(128,128,128,0.07);
+                             ">
+
+                            <img
+                                data-conquista="${esc(c.arquivo)}"
+                                alt="${esc(c.nome)}"
+                                loading="lazy"
+                                style="
+                                    width:85px;
+                                    height:85px;
+                                    object-fit:contain;
+                                    flex-shrink:0;
+                                "
+                            >
+
+                            <div style="
+                                display:flex;
+                                flex-direction:column;
+                                gap:7px;
+                                min-width:0;
+                            ">
+                                <strong style="
+                                    font-size:15px;
+                                    overflow-wrap:anywhere;
+                                ">
+                                    ${esc(c.nome)}
+                                </strong>
+
+                                <span style="
+                                    color:${resultado.cor};
+                                    font-weight:bold;
+                                    font-size:13px;
+                                ">
+                                    ${esc(resultado.texto)}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                }).join("")}
+            </div>
+        `
+        : `<p class="vazio">
+            Nenhuma participação em campeonatos registrada.
+        </p>`;
+
+    return `
+        <div class="bloco-conquistas">
+            <h3>🎖️ Insígnias Conquistadas</h3>
+            ${galeriaInsignias}
+
+            <h3 style="margin-top:24px;">
+                🏆 Histórico de Campeonatos
+            </h3>
+            ${galeriaCampeonatos}
+        </div>
+    `;
 }
 
 // CONTEÚDO DAS ABAS
@@ -343,30 +578,7 @@ function conteudo(t, aba) {
     }
 
     if (aba === "conquistas") {
-
-        const galeria = lista => lista.length
-            ? `<div class="galeria conquistas-galeria">
-                ${lista.map(img => `
-                    <img
-                        src="${esc(img)}"
-                        alt="Conquista"
-                        loading="lazy"
-                    >
-                `).join("")}
-            </div>`
-            : `<p class="vazio">
-                Nenhuma imagem cadastrada ainda.
-            </p>`;
-
-        return `
-            <div class="bloco-conquistas">
-                <h3>🏆 Troféus e medalhas</h3>
-                ${galeria(t.medalhas || [])}
-
-                <h3>🎖️ Insígnias</h3>
-                ${galeria(t.insignias || [])}
-            </div>
-        `;
+        return conteudoConquistas(t);
     }
 
     return "";
@@ -387,7 +599,6 @@ treinadores.forEach((t, i) => {
             : "disputa";
 
     if (categoria !== categoriaAnterior) {
-
         const faixas = {
             mundial: [
                 "🏆 CLASSIFICADOS PARA O MUNDIAL",
@@ -481,7 +692,6 @@ treinadores.forEach((t, i) => {
     const botoes = li.querySelectorAll(".botao-aba");
 
     botoes.forEach(botao => {
-
         botao.addEventListener("click", () => {
 
             const aberta =
@@ -502,9 +712,11 @@ treinadores.forEach((t, i) => {
                 botao.setAttribute("aria-expanded", "true");
                 botao.classList.add("ativo");
 
-                if (botao.dataset.aba === "pokemons") {
-                    configurarSprites(painel, t);
-                }
+                configurarImagens(
+                    painel,
+                    t,
+                    botao.dataset.aba
+                );
             }
         });
     });
