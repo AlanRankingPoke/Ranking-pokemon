@@ -13,7 +13,7 @@ const PASTA_SPRITES = "Imagens/Sprites/";
 
 const treinadores = [
 
-    // RED - POKÉMONS PRINCIPAIS CADASTRADOS
+    // RED
     {
         nome: "Red",
         pokemon: "Mega Charizard X",
@@ -36,8 +36,52 @@ const treinadores = [
         ]
     },
 
-    { nome: "Cynthia", pokemon: "Mega Garchomp", pontos: 601, imagem: PASTA_PERSONAGENS + "Cynthia.webp" },
-    { nome: "Ash", pokemon: "Mega Lucario", pontos: 592, imagem: PASTA_PERSONAGENS + "Ash.webp" },
+    // CYNTHIA
+    {
+        nome: "Cynthia",
+        pokemon: "Mega Garchomp",
+        pontos: 601,
+        imagem: PASTA_PERSONAGENS + "Cynthia.webp",
+
+        pokemonsPrincipais: [
+            {
+                nome: "Mega Garchomp",
+                imagem: PASTA_SPRITES + "Chomp Cynthia.gif"
+            },
+            {
+                nome: "Lucario",
+                imagem: PASTA_SPRITES + "Lucario Cynthia.gif"
+            },
+            {
+                nome: "Spiritomb",
+                imagem: PASTA_SPRITES + "Spiritomb Cynthia.gif"
+            }
+        ]
+    },
+
+    // ASH
+    {
+        nome: "Ash",
+        pokemon: "Mega Lucario",
+        pontos: 592,
+        imagem: PASTA_PERSONAGENS + "Ash.webp",
+
+        pokemonsPrincipais: [
+            {
+                nome: "Greninja",
+                imagem: PASTA_SPRITES + "Greninja Ash.gif"
+            },
+            {
+                nome: "Infernape",
+                imagem: PASTA_SPRITES + "Infernape Ash.gif"
+            },
+            {
+                nome: "Pikachu",
+                imagem: PASTA_SPRITES + "Pikachu Ash.gif"
+            }
+        ]
+    },
+
     { nome: "Yellow", pokemon: "Mega Raichu Y", pontos: 584, imagem: PASTA_PERSONAGENS + "Yellow.webp" },
     { nome: "Callen", pokemon: "Greninja Forma Callen", pontos: 575, imagem: PASTA_PERSONAGENS + "Callen.webp" },
     { nome: "Ethan", pokemon: "Mega Typhlosion", pontos: 566, imagem: PASTA_PERSONAGENS + "Ethan.webp" },
@@ -150,7 +194,6 @@ treinadores.sort((a, b) => b.pontos - a.pontos);
 
 const ranking = document.getElementById("ranking");
 
-// PROTEGE OS TEXTOS INSERIDOS NO HTML
 const escapeHTML = (valor) =>
     String(valor).replace(/[&<>"']/g, (c) => ({
         "&": "&amp;",
@@ -421,7 +464,6 @@ treinadores.forEach((treinador, index) => {
                 b.classList.remove("ativo");
             });
 
-            // FECHA A ABA ATUAL
             if (estavaAberta) {
 
                 painel.hidden = true;
@@ -429,7 +471,6 @@ treinadores.forEach((treinador, index) => {
 
             } else {
 
-                // ABRE A ABA SELECIONADA
                 botao.setAttribute("aria-expanded", "true");
                 botao.classList.add("ativo");
 
