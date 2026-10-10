@@ -1,115 +1,156 @@
-const treinadores = [
-    { nome: "Red", pokemon: "Mega Charizard X", pontos: 610, imagem: "Imagens/Red.webp" },
-    { nome: "Cynthia", pokemon: "Mega Garchomp", pontos: 601, imagem: "Imagens/Cynthia.webp" },
-    { nome: "Ash", pokemon: "Mega Lucario", pontos: 592, imagem: "Imagens/Ash.webp" },
-    { nome: "Yellow", pokemon: "Mega Raichu Y", pontos: 584, imagem: "Imagens/Yellow.webp" },
-    { nome: "Callen", pokemon: "Greninja Forma Callen", pontos: 575, imagem: "Imagens/Callen.webp" },
-    { nome: "Ethan", pokemon: "Mega Typhlosion", pontos: 566, imagem: "Imagens/Ethan.webp" },
-    { nome: "Kael", pokemon: "Mega Kingdra", pontos: 558, imagem: "Imagens/Kael.webp" },
-    { nome: "Magnus", pokemon: "Mega Aggron", pontos: 549, imagem: "Imagens/Magnus.webp" },
-    { nome: "Alder", pokemon: "Mega Volcarona", pontos: 540, imagem: "Imagens/Alder.webp" },
-    { nome: "Alain", pokemon: "Mega Charizard X", pontos: 531, imagem: "Imagens/Alain.webp" },
-    { nome: "Blue", pokemon: "Mega Blastoise", pontos: 522, imagem: "Imagens/Blue.webp" },
-    { nome: "Iris", pokemon: "Mega Haxorus", pontos: 514, imagem: "Imagens/Iris.webp" },
-    { nome: "Silver", pokemon: "Mega Gengar", pontos: 505, imagem: "Imagens/Silver.webp" },
-    { nome: "Paul", pokemon: "Mega Electivire", pontos: 496, imagem: "Imagens/Paul.webp" },
-    { nome: "N", pokemon: "Mega Zoroark", pontos: 488, imagem: "Imagens/N.webp" },
-    { nome: "Bea", pokemon: "Mega Hitmontop", pontos: 479, imagem: "Imagens/Bea.webp" },
-    { nome: "Lance", pokemon: "Mega Dragonite", pontos: 470, imagem: "Imagens/Lance.webp" },
-    { nome: "Lorelei", pokemon: "Mega Aurorus", pontos: 461, imagem: "Imagens/Lorelei.webp" },
-    { nome: "Padre Dough", pokemon: "Mega Umbreon", pontos: 452, imagem: "Imagens/Padre Dough.webp" },
-    { nome: "Blaze", pokemon: "Mega Arcanine", pontos: 444, imagem: "Imagens/Blaze.webp" },
-    { nome: "Drew", pokemon: "Mega Flygon", pontos: 426, imagem: "Imagens/Drew.webp" },
-    { nome: "Tyrion", pokemon: "Mega Snorlax", pontos: 418, imagem: "Imagens/Tyrion.webp" },
-    { nome: "Miriam", pokemon: "Mega Empoleon", pontos: 409, imagem: "Imagens/Miriam.webp" },
-    { nome: "Marnie", pokemon: "Mega Grimmsnarl", pontos: 405, imagem: "Imagens/Marnie.webp" },
-    { nome: "Sawyer", pokemon: "Mega Sceptile", pontos: 400, imagem: "Imagens/Sawyer.webp" },
+// ========================================
+// RANKING POKÉMON RPG
+// ========================================
 
-    // JOGADORES
+// PASTAS DE IMAGENS
+const PASTA_PERSONAGENS = "Imagens/";
+const PASTA_CONQUISTAS = "Imagens/Conquistas/";
+const PASTA_SPRITES = "Imagens/Sprites/";
+
+// ========================================
+// TREINADORES
+// ========================================
+
+const treinadores = [
+
+    // RED - POKÉMONS PRINCIPAIS CADASTRADOS
+    {
+        nome: "Red",
+        pokemon: "Mega Charizard X",
+        pontos: 610,
+        imagem: PASTA_PERSONAGENS + "Red.webp",
+
+        pokemonsPrincipais: [
+            {
+                nome: "Mega Charizard X",
+                imagem: PASTA_SPRITES + "Zard X Red.gif"
+            },
+            {
+                nome: "Tyranitar",
+                imagem: PASTA_SPRITES + "Tyranitar Red.gif"
+            },
+            {
+                nome: "Espeon",
+                imagem: PASTA_SPRITES + "Espeon Red.gif"
+            }
+        ]
+    },
+
+    { nome: "Cynthia", pokemon: "Mega Garchomp", pontos: 601, imagem: PASTA_PERSONAGENS + "Cynthia.webp" },
+    { nome: "Ash", pokemon: "Mega Lucario", pontos: 592, imagem: PASTA_PERSONAGENS + "Ash.webp" },
+    { nome: "Yellow", pokemon: "Mega Raichu Y", pontos: 584, imagem: PASTA_PERSONAGENS + "Yellow.webp" },
+    { nome: "Callen", pokemon: "Greninja Forma Callen", pontos: 575, imagem: PASTA_PERSONAGENS + "Callen.webp" },
+    { nome: "Ethan", pokemon: "Mega Typhlosion", pontos: 566, imagem: PASTA_PERSONAGENS + "Ethan.webp" },
+    { nome: "Kael", pokemon: "Mega Kingdra", pontos: 558, imagem: PASTA_PERSONAGENS + "Kael.webp" },
+    { nome: "Magnus", pokemon: "Mega Aggron", pontos: 549, imagem: PASTA_PERSONAGENS + "Magnus.webp" },
+    { nome: "Alder", pokemon: "Mega Volcarona", pontos: 540, imagem: PASTA_PERSONAGENS + "Alder.webp" },
+    { nome: "Alain", pokemon: "Mega Charizard X", pontos: 531, imagem: PASTA_PERSONAGENS + "Alain.webp" },
+    { nome: "Blue", pokemon: "Mega Blastoise", pontos: 522, imagem: PASTA_PERSONAGENS + "Blue.webp" },
+    { nome: "Iris", pokemon: "Mega Haxorus", pontos: 514, imagem: PASTA_PERSONAGENS + "Iris.webp" },
+    { nome: "Silver", pokemon: "Mega Gengar", pontos: 505, imagem: PASTA_PERSONAGENS + "Silver.webp" },
+    { nome: "Paul", pokemon: "Mega Electivire", pontos: 496, imagem: PASTA_PERSONAGENS + "Paul.webp" },
+    { nome: "N", pokemon: "Mega Zoroark", pontos: 488, imagem: PASTA_PERSONAGENS + "N.webp" },
+    { nome: "Bea", pokemon: "Mega Hitmontop", pontos: 479, imagem: PASTA_PERSONAGENS + "Bea.webp" },
+    { nome: "Lance", pokemon: "Mega Dragonite", pontos: 470, imagem: PASTA_PERSONAGENS + "Lance.webp" },
+    { nome: "Lorelei", pokemon: "Mega Aurorus", pontos: 461, imagem: PASTA_PERSONAGENS + "Lorelei.webp" },
+    { nome: "Padre Dough", pokemon: "Mega Umbreon", pontos: 452, imagem: PASTA_PERSONAGENS + "Padre Dough.webp" },
+    { nome: "Blaze", pokemon: "Mega Arcanine", pontos: 444, imagem: PASTA_PERSONAGENS + "Blaze.webp" },
+    { nome: "Drew", pokemon: "Mega Flygon", pontos: 426, imagem: PASTA_PERSONAGENS + "Drew.webp" },
+    { nome: "Tyrion", pokemon: "Mega Snorlax", pontos: 418, imagem: PASTA_PERSONAGENS + "Tyrion.webp" },
+    { nome: "Miriam", pokemon: "Mega Empoleon", pontos: 409, imagem: PASTA_PERSONAGENS + "Miriam.webp" },
+    { nome: "Marnie", pokemon: "Mega Grimmsnarl", pontos: 405, imagem: PASTA_PERSONAGENS + "Marnie.webp" },
+    { nome: "Sawyer", pokemon: "Mega Sceptile", pontos: 400, imagem: PASTA_PERSONAGENS + "Sawyer.webp" },
+
+    // ========================================
+    // JOGADORES DA CAMPANHA
+    // ========================================
+
     {
         nome: "Bibi",
         pokemon: "Vivillon",
         pontos: 180,
-        imagem: "Imagens/Bibi.webp",
+        imagem: PASTA_PERSONAGENS + "Bibi.webp",
         jogador: true,
         posicaoOficial: 85,
         medalhas: [
-            "Imagens/Copa iniciantes.webp",
-            "Imagens/Torneio Punhos de aço 2.png"
+            PASTA_CONQUISTAS + "Copa iniciantes.webp",
+            PASTA_CONQUISTAS + "Torneio Punhos de aço 2.png"
         ]
     },
+
     {
         nome: "Hana",
         pokemon: "Lucario",
         pontos: 152,
-        imagem: "Imagens/Hana.webp",
+        imagem: PASTA_PERSONAGENS + "Hana.webp",
         jogador: true,
         posicaoOficial: 98,
         medalhas: [
-            "Imagens/Copa iniciantes.webp",
-            "Imagens/Torneio Punhos de aço.png"
+            PASTA_CONQUISTAS + "Copa iniciantes.webp",
+            PASTA_CONQUISTAS + "Torneio Punhos de aço.png"
         ]
     },
+
     {
         nome: "Verso",
         pokemon: "Donphan",
         pontos: 140,
-        imagem: "Imagens/Verso.webp",
+        imagem: PASTA_PERSONAGENS + "Verso.webp",
         jogador: true,
         posicaoOficial: 111,
         medalhas: [
-            "Imagens/Copa iniciantes 2.webp",
-            "Imagens/Torneios Punhos de aço.png"
+            PASTA_CONQUISTAS + "Copa iniciantes 2.webp",
+            PASTA_CONQUISTAS + "Torneios Punhos de aço.png"
         ]
     },
+
     {
         nome: "Hiro",
         pokemon: "Frogadier",
         pontos: 125,
-        imagem: "Imagens/Hiro.webp",
+        imagem: PASTA_PERSONAGENS + "Hiro.webp",
         jogador: true,
         posicaoOficial: 123,
         medalhas: [
-            "Imagens/Copa iniciantes 1.webp",
-            "Imagens/Torneio Punhos de aço 3.png"
+            PASTA_CONQUISTAS + "Copa iniciantes 1.webp",
+            PASTA_CONQUISTAS + "Torneio Punhos de aço 3.png"
         ]
     },
+
     {
         nome: "Match",
         pokemon: "Larvesta",
         pontos: 125,
-        imagem: "Imagens/Match.webp",
+        imagem: PASTA_PERSONAGENS + "Match.webp",
         jogador: true,
         posicaoOficial: 124,
         medalhas: [
-            "Imagens/Copa iniciantes 3.webp"
+            PASTA_CONQUISTAS + "Copa iniciantes 3.webp"
         ]
     },
+
     {
         nome: "Kuran",
         pokemon: "Croconaw",
         pontos: 80,
-        imagem: "Imagens/Kuran.webp",
+        imagem: PASTA_PERSONAGENS + "Kuran.webp",
         jogador: true,
         posicaoOficial: 200,
         medalhas: [
-            "Imagens/Torneio Punhos de aço.png"
+            PASTA_CONQUISTAS + "Torneio Punhos de aço.png"
         ]
     }
 ];
 
-// PARA CADASTRAR NOVAS INFORMAÇÕES EM UM TREINADOR:
-// classe: "Nome da classe",
-// pokemonsPrincipais: [
-//     { nome: "Pokémon", imagem: "Imagens/Pokemon.webp" }
-// ],
-// rivalidades: [
-//     { treinador: "Nome", texto: "História", imagem: "Imagens/Rival.webp" }
-// ],
-// insignias: ["Imagens/Insignia.webp"]
+// ========================================
+// ORGANIZAÇÃO DO RANKING
+// ========================================
+
+treinadores.sort((a, b) => b.pontos - a.pontos);
 
 const ranking = document.getElementById("ranking");
 
+// PROTEGE OS TEXTOS INSERIDOS NO HTML
 const escapeHTML = (valor) =>
     String(valor).replace(/[&<>"']/g, (c) => ({
         "&": "&amp;",
@@ -119,9 +160,12 @@ const escapeHTML = (valor) =>
         "'": "&#39;"
     }[c]));
 
-treinadores.sort((a, b) => b.pontos - a.pontos);
+// ========================================
+// FAIXAS DE CLASSIFICAÇÃO
+// ========================================
 
 function criarFaixa(titulo, descricao, classe) {
+
     const faixa = document.createElement("li");
 
     faixa.className = `faixa-ranking ${classe}`;
@@ -134,9 +178,15 @@ function criarFaixa(titulo, descricao, classe) {
     ranking.appendChild(faixa);
 }
 
+// ========================================
+// CONTEÚDO DAS ABAS
+// ========================================
+
 function criarConteudoAba(treinador, aba) {
 
+    // POKÉMONS PRINCIPAIS
     if (aba === "pokemons") {
+
         const pokemons = treinador.pokemonsPrincipais || [];
 
         if (!pokemons.length) {
@@ -157,7 +207,9 @@ function criarConteudoAba(treinador, aba) {
         `;
     }
 
+    // RIVALIDADES
     if (aba === "rivalidades") {
+
         const rivalidades = treinador.rivalidades || [];
 
         if (!rivalidades.length) {
@@ -168,6 +220,7 @@ function criarConteudoAba(treinador, aba) {
             <div class="rivalidades-lista">
                 ${rivalidades.map((r) => `
                     <div class="rivalidade-item">
+
                         ${r.imagem ? `
                             <img src="${escapeHTML(r.imagem)}"
                                  alt="${escapeHTML(r.treinador)}"
@@ -178,37 +231,50 @@ function criarConteudoAba(treinador, aba) {
                             <strong>⚔️ ${escapeHTML(r.treinador)}</strong>
                             <p>${escapeHTML(r.texto)}</p>
                         </div>
+
                     </div>
                 `).join("")}
             </div>
         `;
     }
 
-    const medalhas = treinador.medalhas || [];
-    const insignias = treinador.insignias || [];
+    // CONQUISTAS DOS JOGADORES
+    if (aba === "conquistas") {
 
-    const imagens = (lista) => lista.length
-        ? `
-            <div class="galeria conquistas-galeria">
-                ${lista.map((arquivo) => `
-                    <img src="${escapeHTML(arquivo)}"
-                         alt="Conquista"
-                         loading="lazy">
-                `).join("")}
+        const medalhas = treinador.medalhas || [];
+        const insignias = treinador.insignias || [];
+
+        const imagens = (lista) => lista.length
+            ? `
+                <div class="galeria conquistas-galeria">
+                    ${lista.map((arquivo) => `
+                        <img src="${escapeHTML(arquivo)}"
+                             alt="Conquista"
+                             loading="lazy">
+                    `).join("")}
+                </div>
+            `
+            : '<p class="vazio">Nenhuma imagem cadastrada ainda.</p>';
+
+        return `
+            <div class="bloco-conquistas">
+
+                <h3>🏆 Troféus e medalhas</h3>
+                ${imagens(medalhas)}
+
+                <h3>🎖️ Insígnias</h3>
+                ${imagens(insignias)}
+
             </div>
-        `
-        : '<p class="vazio">Nenhuma imagem cadastrada ainda.</p>';
+        `;
+    }
 
-    return `
-        <div class="bloco-conquistas">
-            <h3>🏆 Troféus e medalhas</h3>
-            ${imagens(medalhas)}
-
-            <h3>🎖️ Insígnias</h3>
-            ${imagens(insignias)}
-        </div>
-    `;
+    return "";
 }
+
+// ========================================
+// CRIAÇÃO DOS CARTÕES
+// ========================================
 
 let categoriaAnterior = "";
 
@@ -224,6 +290,7 @@ treinadores.forEach((treinador, index) => {
             ? "qualificatorias"
             : "disputa";
 
+    // DIVISÕES DO MUNDIAL
     if (categoria !== categoriaAnterior) {
 
         if (categoria === "mundial") {
@@ -253,16 +320,19 @@ treinadores.forEach((treinador, index) => {
         categoriaAnterior = categoria;
     }
 
+    // CRIA O CARTÃO
     const item = document.createElement("li");
 
     item.className = `card-treinador ${
         treinador.jogador ? "jogador" : "npc"
     }`;
 
+    // TOP 3
     if (posicao === 1) item.classList.add("primeiro");
     if (posicao === 2) item.classList.add("segundo");
     if (posicao === 3) item.classList.add("terceiro");
 
+    // ABAS DISPONÍVEIS
     const abas = [
         {
             id: "pokemons",
@@ -279,6 +349,7 @@ treinadores.forEach((treinador, index) => {
 
     const id = `treinador-${index}`;
 
+    // CONTEÚDO DO CARTÃO
     item.innerHTML = `
         <div class="topo-card">
 
@@ -288,7 +359,10 @@ treinadores.forEach((treinador, index) => {
                  loading="lazy">
 
             <div class="info">
-                <strong>${posicao}º — ${escapeHTML(treinador.nome)}</strong>
+
+                <strong>
+                    ${posicao}º — ${escapeHTML(treinador.nome)}
+                </strong>
 
                 <span class="pokemon-destaque">
                     Pokémon principal: ${escapeHTML(treinador.pokemon)}
@@ -301,6 +375,7 @@ treinadores.forEach((treinador, index) => {
                 <span class="pontuacao">
                     ⭐ ${treinador.pontos} pontos
                 </span>
+
             </div>
 
         </div>
@@ -312,8 +387,10 @@ treinadores.forEach((treinador, index) => {
                         aria-expanded="false"
                         aria-controls="${id}-painel"
                         data-aba="${aba.id}">
+
                     ${aba.titulo}
                     <span class="seta">▾</span>
+
                 </button>
             `).join("")}
         </div>
@@ -323,6 +400,10 @@ treinadores.forEach((treinador, index) => {
              hidden>
         </div>
     `;
+
+    // ========================================
+    // FUNCIONAMENTO DAS ABAS
+    // ========================================
 
     const painel = item.querySelector(".painel-aba");
     const botoes = item.querySelectorAll(".botao-aba");
@@ -334,15 +415,21 @@ treinadores.forEach((treinador, index) => {
             const estavaAberta =
                 botao.getAttribute("aria-expanded") === "true";
 
+            // FECHA AS OUTRAS ABAS
             botoes.forEach((b) => {
                 b.setAttribute("aria-expanded", "false");
                 b.classList.remove("ativo");
             });
 
+            // FECHA A ABA ATUAL
             if (estavaAberta) {
+
                 painel.hidden = true;
                 painel.innerHTML = "";
+
             } else {
+
+                // ABRE A ABA SELECIONADA
                 botao.setAttribute("aria-expanded", "true");
                 botao.classList.add("ativo");
 
