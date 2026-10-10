@@ -359,3 +359,59 @@ h1 {
         height: 64px;
     }
 }
+/* NOVO LAYOUT DOS CARTÕES */
+
+@media (min-width: 701px) {
+
+    #ranking .card-treinador {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 220px;
+        column-gap: 20px;
+        align-items: center;
+    }
+
+    .topo-card {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .foto-treinador {
+        width: 190px;
+        height: 190px;
+        flex-basis: 190px;
+    }
+
+    .botoes-abas {
+        grid-column: 2;
+        grid-row: 1;
+        display: flex;
+        flex-direction: column;
+        margin-top: 0;
+    }
+
+    .botao-aba {
+        width: 100%;
+        text-align: center;
+    }
+
+    .painel-aba {
+        grid-column: 1 / -1;
+    }
+
+}
+
+/* ADAPTAÇÃO PARA CELULAR */
+
+@media (max-width: 700px) {
+
+    .foto-treinador {
+        width: 125px;
+        height: 145px;
+        flex-basis: 125px;
+    }
+
+    .botoes-abas {
+        justify-content: center;
+    }
+
+}
