@@ -4,19 +4,17 @@ const C = "Imagens/Conquistas/";
 
 const sprite = (nome, arquivo) => ({
     nome,
-    imagem: S + arquivo + ".gif"
+    imagem: S + arquivo + ".gif",
+    arquivo
 });
 
 const treinador = (nome, pokemon, pontos, pokemonsPrincipais = []) => ({
-    nome,
-    pokemon,
-    pontos,
+    nome, pokemon, pontos,
     imagem: P + nome + ".webp",
     pokemonsPrincipais
 });
 
 const treinadores = [
-
     treinador("Red", "Mega Charizard X", 610, [
         sprite("Mega Charizard X", "Zard X Red"),
         sprite("Tyranitar", "Tyranitar Red"),
@@ -95,33 +93,15 @@ const treinadores = [
         ["Miriam", "Mega Empoleon", 409],
         ["Marnie", "Mega Grimmsnarl", 405],
         ["Sawyer", "Mega Sceptile", 400]
-    ].map(([nome, pokemon, pontos]) =>
-        treinador(nome, pokemon, pontos)
-    ),
+    ].map(([nome, pokemon, pontos]) => treinador(nome, pokemon, pontos)),
 
     ...[
-        ["Bibi", "Vivillon", 180, 85, [
-            "Copa iniciantes.webp",
-            "Torneio Punhos de aço 2.png"
-        ]],
-        ["Hana", "Lucario", 152, 98, [
-            "Copa iniciantes.webp",
-            "Torneio Punhos de aço.png"
-        ]],
-        ["Verso", "Donphan", 140, 111, [
-            "Copa iniciantes 2.webp",
-            "Torneios Punhos de aço.png"
-        ]],
-        ["Hiro", "Frogadier", 125, 123, [
-            "Copa iniciantes 1.webp",
-            "Torneio Punhos de aço 3.png"
-        ]],
-        ["Match", "Larvesta", 125, 124, [
-            "Copa iniciantes 3.webp"
-        ]],
-        ["Kuran", "Croconaw", 80, 200, [
-            "Torneio Punhos de aço.png"
-        ]]
+        ["Bibi", "Vivillon", 180, 85, ["Copa iniciantes.webp", "Torneio Punhos de aço 2.png"]],
+        ["Hana", "Lucario", 152, 98, ["Copa iniciantes.webp", "Torneio Punhos de aço.png"]],
+        ["Verso", "Donphan", 140, 111, ["Copa iniciantes 2.webp", "Torneios Punhos de aço.png"]],
+        ["Hiro", "Frogadier", 125, 123, ["Copa iniciantes 1.webp", "Torneio Punhos de aço 3.png"]],
+        ["Match", "Larvesta", 125, 124, ["Copa iniciantes 3.webp"]],
+        ["Kuran", "Croconaw", 80, 200, ["Torneio Punhos de aço.png"]]
     ].map(([nome, pokemon, pontos, posicaoOficial, medalhas]) => ({
         ...treinador(nome, pokemon, pontos),
         jogador: true,
@@ -135,11 +115,8 @@ treinadores.sort((a, b) => b.pontos - a.pontos);
 const ranking = document.getElementById("ranking");
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;"
 }[c]));
 
 function faixa(titulo, descricao, classe) {
@@ -150,7 +127,6 @@ function faixa(titulo, descricao, classe) {
 }
 
 function conteudo(t, aba) {
-
     if (aba === "pokemons") {
         const lista = t.pokemonsPrincipais || [];
 
@@ -158,10 +134,12 @@ function conteudo(t, aba) {
             ? `<div class="galeria">${lista.map(p => `
                 <div class="mini-card">
                     <img src="${esc(p.imagem)}"
-                         alt="${esc(p.nome)}" loading="lazy">
+                         alt="${esc(p.nome)}"
+                         data-arquivo="${esc(p.arquivo)}"
+                         data-tentativa="0"
+                         loading="lazy">
                     <span>${esc(p.nome)}</span>
-                </div>
-            `).join("")}</div>`
+                </div>`).join("")}</div>`
             : `<p class="vazio">Pokémons principais serão adicionados em breve.</p>`;
     }
 
@@ -171,26 +149,20 @@ function conteudo(t, aba) {
         return lista.length
             ? `<div class="rivalidades-lista">${lista.map(r => `
                 <div class="rivalidade-item">
-                    ${r.imagem ? `
-                        <img src="${esc(r.imagem)}"
-                             alt="${esc(r.treinador)}" loading="lazy">
-                    ` : ""}
+                    ${r.imagem ? `<img src="${esc(r.imagem)}" alt="${esc(r.treinador)}" loading="lazy">` : ""}
                     <div>
                         <strong>⚔️ ${esc(r.treinador)}</strong>
                         <p>${esc(r.texto)}</p>
                     </div>
-                </div>
-            `).join("")}</div>`
+                </div>`).join("")}</div>`
             : `<p class="vazio">As rivalidades deste treinador serão reveladas em breve.</p>`;
     }
 
     if (aba === "conquistas") {
         const galeria = lista => lista.length
-            ? `<div class="galeria conquistas-galeria">
-                ${lista.map(img => `
-                    <img src="${esc(img)}" alt="Conquista" loading="lazy">
-                `).join("")}
-            </div>`
+            ? `<div class="galeria conquistas-galeria">${lista.map(img =>
+                `<img src="${esc(img)}" alt="Conquista" loading="lazy">`
+            ).join("")}</div>`
             : `<p class="vazio">Nenhuma imagem cadastrada ainda.</p>`;
 
         return `<div class="bloco-conquistas">
@@ -204,35 +176,36 @@ function conteudo(t, aba) {
     return "";
 }
 
+// Se um sprite não carregar, tenta outras extensões.
+const extensoes = [".gif", ".png", ".webp", ".jpg"];
+
+document.addEventListener("error", evento => {
+    const img = evento.target;
+
+    if (!(img instanceof HTMLImageElement) || !img.dataset.arquivo) return;
+
+    const tentativa = Number(img.dataset.tentativa || 0) + 1;
+
+    if (tentativa >= extensoes.length) {
+        img.alt = "Imagem não encontrada";
+        return;
+    }
+
+    img.dataset.tentativa = tentativa;
+    img.src = S + img.dataset.arquivo + extensoes[tentativa];
+}, true);
+
 let categoriaAnterior = "";
 
 treinadores.forEach((t, i) => {
-
     const pos = t.jogador ? t.posicaoOficial : i + 1;
-
-    const categoria = pos <= 10
-        ? "mundial"
-        : pos <= 27
-            ? "qualificatorias"
-            : "disputa";
+    const categoria = pos <= 10 ? "mundial" : pos <= 27 ? "qualificatorias" : "disputa";
 
     if (categoria !== categoriaAnterior) {
         const faixas = {
-            mundial: [
-                "🏆 CLASSIFICADOS PARA O MUNDIAL",
-                "1º ao 10º lugar",
-                "faixa-mundial"
-            ],
-            qualificatorias: [
-                "🌍 CLASSIFICADOS PARA AS QUALIFICATÓRIAS",
-                "11º ao 27º lugar",
-                "faixa-qualificatorias"
-            ],
-            disputa: [
-                "⚔️ DISPUTANDO VAGA NAS QUALIFICATÓRIAS",
-                "28º lugar em diante",
-                "faixa-disputa"
-            ]
+            mundial: ["🏆 CLASSIFICADOS PARA O MUNDIAL", "1º ao 10º lugar", "faixa-mundial"],
+            qualificatorias: ["🌍 CLASSIFICADOS PARA AS QUALIFICATÓRIAS", "11º ao 27º lugar", "faixa-qualificatorias"],
+            disputa: ["⚔️ DISPUTANDO VAGA NAS QUALIFICATÓRIAS", "28º lugar em diante", "faixa-disputa"]
         };
 
         faixa(...faixas[categoria]);
@@ -240,14 +213,9 @@ treinadores.forEach((t, i) => {
     }
 
     const li = document.createElement("li");
-
     li.className = `card-treinador ${t.jogador ? "jogador" : "npc"}`;
 
-    if (pos <= 3) {
-        li.classList.add(
-            ["primeiro", "segundo", "terceiro"][pos - 1]
-        );
-    }
+    if (pos <= 3) li.classList.add(["primeiro", "segundo", "terceiro"][pos - 1]);
 
     const abas = [
         ["pokemons", "🐉 Pokémons Principais"],
@@ -259,15 +227,11 @@ treinadores.forEach((t, i) => {
 
     li.innerHTML = `
         <div class="topo-card">
-            <img class="foto-treinador"
-                 src="${esc(t.imagem)}"
+            <img class="foto-treinador" src="${esc(t.imagem)}"
                  alt="${esc(t.nome)}" loading="lazy">
-
             <div class="info">
                 <strong>${pos}º — ${esc(t.nome)}</strong>
-                <span class="pokemon-destaque">
-                    Pokémon principal: ${esc(t.pokemon)}
-                </span>
+                <span class="pokemon-destaque">Pokémon principal: ${esc(t.pokemon)}</span>
                 ${t.classe ? `<span>Classe: ${esc(t.classe)}</span>` : ""}
                 <span class="pontuacao">⭐ ${t.pontos} pontos</span>
             </div>
@@ -275,14 +239,11 @@ treinadores.forEach((t, i) => {
 
         <div class="botoes-abas">
             ${abas.map(([aba, titulo]) => `
-                <button type="button"
-                        class="botao-aba"
-                        data-aba="${aba}"
-                        aria-expanded="false"
-                        aria-controls="${id}-painel">
+                <button type="button" class="botao-aba"
+                    data-aba="${aba}" aria-expanded="false"
+                    aria-controls="${id}-painel">
                     ${titulo} <span class="seta">▾</span>
-                </button>
-            `).join("")}
+                </button>`).join("")}
         </div>
 
         <div class="painel-aba" id="${id}-painel" hidden></div>
@@ -293,9 +254,7 @@ treinadores.forEach((t, i) => {
 
     botoes.forEach(botao => {
         botao.addEventListener("click", () => {
-
-            const aberta =
-                botao.getAttribute("aria-expanded") === "true";
+            const aberta = botao.getAttribute("aria-expanded") === "true";
 
             botoes.forEach(b => {
                 b.setAttribute("aria-expanded", "false");
@@ -303,9 +262,7 @@ treinadores.forEach((t, i) => {
             });
 
             painel.hidden = aberta;
-            painel.innerHTML = aberta
-                ? ""
-                : conteudo(t, botao.dataset.aba);
+            painel.innerHTML = aberta ? "" : conteudo(t, botao.dataset.aba);
 
             if (!aberta) {
                 botao.setAttribute("aria-expanded", "true");
