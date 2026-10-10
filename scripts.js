@@ -3,14 +3,15 @@ const P = "Imagens/";
 const S = "Imagens/Sprites/";
 const C = "Imagens/Conquistas/";
 
-// Cria os sprites dos Pokémon.
-const sprite = (nome, arquivo) => ({
+// CRIAÇÃO DE SPRITES E TREINADORES
+
+const sprite = (nome, arquivo, alternativas = []) => ({
     nome,
-    imagem: S + arquivo + ".gif",
-    arquivo
+    arquivo,
+    alternativas,
+    imagem: S + arquivo + ".gif"
 });
 
-// Cria os treinadores.
 const treinador = (nome, pokemon, pontos, pokemonsPrincipais = []) => ({
     nome,
     pokemon,
@@ -19,9 +20,11 @@ const treinador = (nome, pokemon, pontos, pokemonsPrincipais = []) => ({
     pokemonsPrincipais
 });
 
+// RANKING COMPLETO
+
 const treinadores = [
 
-    // TOP 10 - CLASSIFICADOS PARA O MUNDIAL
+    // TOP 10 - MUNDIAL
 
     treinador("Red", "Mega Charizard X", 610, [
         sprite("Mega Charizard X", "Zard X Red"),
@@ -75,7 +78,14 @@ const treinadores = [
         ...treinador("Gladion", "Mega Lycanroc", 540, [
             sprite("Mega Lycanroc", "Lyncarock Gladion"),
             sprite("Meowscarada", "Meowscarada Gladion"),
-            sprite("Porygon-Z", "Porygon Z Gladion")
+            sprite("Porygon-Z", "Porygon Z Gladion", [
+                "Porygon-Z Gladion",
+                "Porygon z Gladion",
+                "PorygonZ Gladion",
+                "porygon z Gladion",
+                "porygon-z Gladion",
+                "Porygon  Z Gladion"
+            ])
         ]),
         imagem: P + "Gladion.jpg"
     },
@@ -86,7 +96,7 @@ const treinadores = [
         sprite("Scizor", "scizor Blue")
     ]),
 
-    // DEMAIS TREINADORES NPCS
+    // DEMAIS NPCS
 
     ...[
         ["Iris", "Mega Haxorus", 514],
@@ -107,11 +117,13 @@ const treinadores = [
         treinador(nome, pokemon, pontos)
     ),
 
-    // JOGADORES - PONTUAÇÕES E POSIÇÕES ATUALIZADAS
+    // JOGADORES
 
     {
         ...treinador("Bibi", "Charizard", 190, [
-            sprite("Azumarill", "Azumarill Bibi"),
+            sprite("Azumarill", "Azulmaril Bibi", [
+                "Azumarill Bibi"
+            ]),
             sprite("Charizard", "Charizard Bibi"),
             sprite("Pikachu", "Pikachu bibi"),
             sprite("Quilladin", "Quiladin Bibi"),
@@ -127,7 +139,12 @@ const treinadores = [
     },
 
     {
-        ...treinador("Hana", "Mega Swampert", 187),
+        ...treinador("Hana", "Mega Swampert", 187, [
+            sprite("Mega Swampert", "Mega swampert Hana"),
+            sprite("Scovillain", "scovillain Hana"),
+            sprite("Sylveon", "sylveon Hana"),
+            sprite("Corviknight", "corviknight Hana")
+        ]),
         jogador: true,
         posicaoOficial: 76,
         medalhas: [
@@ -137,7 +154,13 @@ const treinadores = [
     },
 
     {
-        ...treinador("Hiro", "Greninja", 157),
+        ...treinador("Hiro", "Greninja", 157, [
+            sprite("Decidueye", "decidueye Hiro"),
+            sprite("Gabite", "Gabite Hiro"),
+            sprite("Greninja", "Greninja Hiro"),
+            sprite("Larvesta", "Larvesta Hiro"),
+            sprite("Metang", "Metang Hiro")
+        ]),
         jogador: true,
         posicaoOficial: 100,
         medalhas: [
@@ -150,7 +173,13 @@ const treinadores = [
         ...treinador("Verso", "Mega Typhlosion", 155, [
             sprite("Donphan", "donphan Verso"),
             sprite("Typhlosion", "Typlosion Verso"),
-            sprite("Whimsicott", "whimscott Verso"),
+            sprite("Whimsicott", "whimscott Verso", [
+                "whimsicott Verso",
+                "Whimsicott Verso",
+                "Whimscott Verso",
+                "whimscot Verso",
+                "whimsicott verso"
+            ]),
             sprite("Bewear", "Bewear Verso")
         ]),
         jogador: true,
@@ -162,7 +191,12 @@ const treinadores = [
     },
 
     {
-        ...treinador("Match", "Cinderace", 153),
+        ...treinador("Match", "Cinderace", 153, [
+            sprite("Cinderace", "cinderace Match"),
+            sprite("Delphox", "Delphox Match"),
+            sprite("Rotom-Heat", "rotom-heat Match"),
+            sprite("Turtonator", "turtonator Match")
+        ]),
         jogador: true,
         posicaoOficial: 102,
         medalhas: [
@@ -187,13 +221,12 @@ const treinadores = [
     }
 ];
 
-// ORDENAÇÃO DO RANKING
+// ORDENAÇÃO
 
 treinadores.sort((a, b) => b.pontos - a.pontos);
 
 const ranking = document.getElementById("ranking");
 
-// Proteção dos textos inseridos no HTML.
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
     "&": "&amp;",
     "<": "&lt;",
@@ -202,11 +235,53 @@ const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
     "'": "&#39;"
 }[c]));
 
+// SISTEMA DE CARREGAMENTO DOS SPRITES
+
+const extensoes = [".gif", ".png", ".webp", ".jpg", ".jpeg"];
+
+function caminhosSprite(p) {
+    const nomes = [p.arquivo, ...(p.alternativas || [])];
+    return nomes.flatMap(nome =>
+        extensoes.map(ext => S + nome + ext)
+    );
+}
+
+function configurarSprites(painel, t) {
+    const lista = t.pokemonsPrincipais || [];
+    const imagens = painel.querySelectorAll(".mini-card img");
+
+    imagens.forEach((img, i) => {
+        const p = lista[i];
+        if (!p) return;
+
+        const caminhos = caminhosSprite(p);
+        let tentativa = 0;
+
+        img.onerror = () => {
+            tentativa++;
+
+            if (tentativa < caminhos.length) {
+                img.src = caminhos[tentativa];
+            } else {
+                img.onerror = null;
+                img.alt = "Sprite não encontrado: " + p.nome;
+                console.warn(
+                    "Sprite não encontrado:",
+                    p.nome,
+                    "Arquivos tentados:",
+                    caminhos
+                );
+            }
+        };
+
+        img.src = caminhos[0];
+    });
+}
+
 // FAIXAS DO RANKING
 
 function faixa(titulo, descricao, classe) {
     const li = document.createElement("li");
-
     li.className = "faixa-ranking " + classe;
 
     li.innerHTML = `
@@ -229,10 +304,7 @@ function conteudo(t, aba) {
                 ${lista.map(p => `
                     <div class="mini-card">
                         <img
-                            src="${esc(p.imagem)}"
                             alt="${esc(p.nome)}"
-                            data-arquivo="${esc(p.arquivo)}"
-                            data-tentativa="0"
                             loading="lazy"
                         >
                         <span>${esc(p.nome)}</span>
@@ -299,28 +371,6 @@ function conteudo(t, aba) {
 
     return "";
 }
-
-// CORREÇÃO AUTOMÁTICA DE EXTENSÕES
-
-const extensoes = [".gif", ".png", ".webp", ".jpg"];
-
-document.addEventListener("error", evento => {
-    const img = evento.target;
-
-    if (!(img instanceof HTMLImageElement)) return;
-    if (!img.dataset.arquivo) return;
-
-    const tentativa = Number(img.dataset.tentativa || 0) + 1;
-
-    if (tentativa >= extensoes.length) {
-        img.alt = "Imagem não encontrada";
-        return;
-    }
-
-    img.dataset.tentativa = tentativa;
-    img.src = S + img.dataset.arquivo + extensoes[tentativa];
-
-}, true);
 
 // MONTAGEM DOS CARTÕES
 
@@ -451,6 +501,10 @@ treinadores.forEach((t, i) => {
             if (!aberta) {
                 botao.setAttribute("aria-expanded", "true");
                 botao.classList.add("ativo");
+
+                if (botao.dataset.aba === "pokemons") {
+                    configurarSprites(painel, t);
+                }
             }
         });
     });
