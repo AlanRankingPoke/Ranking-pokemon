@@ -3,7 +3,9 @@ const P = "Imagens/";
 const S = "Imagens/Sprites/";
 const C = "Imagens/Conquistas/";
 
-// CRIAÇÃO DOS POKÉMON E TREINADORES
+// =====================================
+// FUNÇÕES DE CRIAÇÃO
+// =====================================
 
 const sprite = (nome, arquivo, alternativas = []) => ({
     nome,
@@ -19,8 +21,9 @@ const treinador = (nome, pokemon, pontos, pokemonsPrincipais = []) => ({
     pokemonsPrincipais
 });
 
+// =====================================
 // CATÁLOGO DE INSÍGNIAS
-// Novas insígnias podem ser adicionadas aqui.
+// =====================================
 
 const INSIGNIAS = {
     dragao: { nome: "Dragão", arquivo: "Dragão" },
@@ -30,8 +33,9 @@ const INSIGNIAS = {
     valley: { nome: "Valley", arquivo: "Valley" }
 };
 
+// =====================================
 // CATÁLOGO DE CAMPEONATOS
-// Novos campeonatos podem ser adicionados aqui.
+// =====================================
 
 const CAMPEONATOS = {
     iniciantes: {
@@ -48,10 +52,14 @@ const CAMPEONATOS = {
     }
 };
 
+// =====================================
 // CONQUISTAS DOS JOGADORES
-// 0 = participou, mas não chegou ao pódio.
-// 1, 2, 3 = colocação.
-// Campeonato ausente = não participou.
+// =====================================
+// 0 = participou sem alcançar o pódio
+// 1 = campeão
+// 2 = vice-campeão
+// 3 = terceiro lugar
+// Ausente = não participou
 
 const CONQUISTAS = {
     Bibi: {
@@ -107,8 +115,9 @@ const CONQUISTAS = {
     }
 };
 
-// HISTÓRIAS OFICIAIS DAS RIVALIDADES
-// Para atualizar uma rivalidade, altere o texto do treinador.
+// =====================================
+// HISTÓRIAS DAS RIVALIDADES
+// =====================================
 
 const RIVALIDADES = {
 
@@ -133,11 +142,15 @@ Já Hiro entrou nessa lista por um motivo inusitado: o Quilladin de Bibi desenvo
     Match: `Match não considera ninguém seu rival atualmente. Até agora, nenhum adversário conseguiu conquistar esse reconhecimento.`
 };
 
-// RANKING COMPLETO
+// =====================================
+// LISTA COMPLETA DOS TREINADORES
+// =====================================
 
 const treinadores = [
 
-    // TOP 10 - CLASSIFICADOS PARA O MUNDIAL
+    // =================================
+    // NPCS DO RANKING
+    // =================================
 
     treinador("Red", "Mega Charizard X", 610, [
         sprite("Mega Charizard X", "Zard X Red"),
@@ -209,8 +222,6 @@ const treinadores = [
         sprite("Scizor", "scizor Blue")
     ]),
 
-    // DEMAIS NPCS
-
     ...[
         ["Iris", "Mega Haxorus", 514],
         ["Silver", "Mega Gengar", 505],
@@ -230,7 +241,9 @@ const treinadores = [
         treinador(nome, pokemon, pontos)
     ),
 
-    // JOGADORES
+    // =================================
+    // JOGADORES DA CAMPANHA
+    // =================================
 
     {
         ...treinador("Bibi", "Charizard", 190, [
@@ -309,14 +322,86 @@ const treinadores = [
         ]),
         jogador: true,
         posicaoOficial: 163
+    },
+
+    // =================================
+    // NOVOS PERSONAGENS DO RANKING
+    // =================================
+    // Pontuações provisórias estimadas.
+    // Posições oficiais informadas pelo mestre.
+    // Os Pokémon principais serão adicionados depois.
+
+    {
+        ...treinador("Hyuga", "Não revelado", 184),
+        imagem: P + "Hyuga.webp",
+        jogador: true,
+        posicaoOficial: 77
+    },
+
+    {
+        ...treinador("Arkyn", "Não revelado", 181),
+        imagem: P + "Arkyn.webp",
+        jogador: true,
+        posicaoOficial: 79
+    },
+
+    {
+        ...treinador("Yhgom", "Não revelado", 178),
+        imagem: P + "Yhgom.webp",
+        jogador: true,
+        posicaoOficial: 81
+    },
+
+    {
+        ...treinador("Liora", "Não revelado", 167),
+        imagem: P + "Liora.webp",
+        jogador: true,
+        posicaoOficial: 92
+    },
+
+    {
+        ...treinador("Ryo", "Não revelado", 164),
+        imagem: P + "Ryo.webp",
+        jogador: true,
+        posicaoOficial: 94
+    },
+
+    {
+        ...treinador("Lucia Stone", "Não revelado", 150),
+        imagem: P + "Lúcia Stone.webp",
+        jogador: true,
+        posicaoOficial: 105
     }
 ];
 
+// =====================================
 // ORDENAÇÃO DO RANKING
+// =====================================
 
-treinadores.sort((a, b) => b.pontos - a.pontos);
+treinadores.sort((a, b) => {
+    // NPCs têm suas posições determinadas pela pontuação.
+    // Jogadores e novos personagens têm posição oficial definida.
+
+    const posA = a.posicaoOficial ?? null;
+    const posB = b.posicaoOficial ?? null;
+
+    if (posA !== null && posB !== null) {
+        return posA - posB;
+    }
+
+    if (posA === null && posB === null) {
+        return b.pontos - a.pontos;
+    }
+
+    // Os NPCs cadastrados ocupam as posições 1 a 24.
+    return posA === null ? -1 : 1;
+});
 
 const ranking = document.getElementById("ranking");
+
+// =====================================
+// PROTEÇÃO DE TEXTO HTML
+// =====================================
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
     "&": "&amp;",
@@ -326,14 +411,24 @@ const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
     "'": "&#39;"
 }[c]));
 
-// SISTEMA DE CARREGAMENTO DE IMAGENS
+// =====================================
+// SISTEMA DE IMAGENS
+// =====================================
 
 const extensoesSprites = [
-    ".gif", ".png", ".webp", ".jpg", ".jpeg"
+    ".gif",
+    ".png",
+    ".webp",
+    ".jpg",
+    ".jpeg"
 ];
 
 const extensoesConquistas = [
-    ".png", ".webp", ".jpg", ".jpeg", ".gif"
+    ".png",
+    ".webp",
+    ".jpg",
+    ".jpeg",
+    ".gif"
 ];
 
 function caminhosImagem(pasta, nomes, extensoes) {
@@ -353,7 +448,11 @@ function carregarImagem(img, caminhos) {
         } else {
             img.onerror = null;
             img.alt = "Imagem não encontrada";
-            console.warn("Imagem não encontrada:", caminhos);
+
+            console.warn(
+                "Imagem não encontrada:",
+                caminhos
+            );
         }
     };
 
@@ -366,41 +465,48 @@ function configurarImagens(painel, t, aba) {
 
     if (aba === "pokemons") {
         const lista = t.pokemonsPrincipais || [];
-        const imagens = painel.querySelectorAll(".mini-card img");
 
-        imagens.forEach((img, i) => {
-            const p = lista[i];
-            if (!p) return;
+        painel.querySelectorAll(".mini-card img")
+            .forEach((img, i) => {
 
-            carregarImagem(
-                img,
-                caminhosImagem(
-                    S,
-                    [p.arquivo, ...(p.alternativas || [])],
-                    extensoesSprites
-                )
-            );
-        });
+                const p = lista[i];
+
+                if (!p) return;
+
+                carregarImagem(
+                    img,
+                    caminhosImagem(
+                        S,
+                        [p.arquivo, ...(p.alternativas || [])],
+                        extensoesSprites
+                    )
+                );
+            });
     }
 
     if (aba === "conquistas") {
-        painel.querySelectorAll("img[data-conquista]").forEach(img => {
-            carregarImagem(
-                img,
-                caminhosImagem(
-                    C,
-                    [img.dataset.conquista],
-                    extensoesConquistas
-                )
-            );
-        });
+        painel.querySelectorAll("img[data-conquista]")
+            .forEach(img => {
+
+                carregarImagem(
+                    img,
+                    caminhosImagem(
+                        C,
+                        [img.dataset.conquista],
+                        extensoesConquistas
+                    )
+                );
+            });
     }
 }
 
+// =====================================
 // FAIXAS DO RANKING
+// =====================================
 
 function faixa(titulo, descricao, classe) {
     const li = document.createElement("li");
+
     li.className = "faixa-ranking " + classe;
 
     li.innerHTML = `
@@ -411,9 +517,12 @@ function faixa(titulo, descricao, classe) {
     ranking.appendChild(li);
 }
 
+// =====================================
 // RESULTADOS DOS CAMPEONATOS
+// =====================================
 
 function resultadoCampeonato(posicao) {
+
     if (posicao === 0) {
         return {
             texto: "Participou — Sem pódio",
@@ -426,10 +535,12 @@ function resultadoCampeonato(posicao) {
             texto: "🥇 1º lugar — Campeão",
             cor: "#f5c542"
         },
+
         2: {
             texto: "🥈 2º lugar — Vice-campeão",
             cor: "#c4ccd8"
         },
+
         3: {
             texto: "🥉 3º lugar",
             cor: "#d9945b"
@@ -442,9 +553,12 @@ function resultadoCampeonato(posicao) {
     };
 }
 
-// ABA DE CONQUISTAS
+// =====================================
+// CONTEÚDO DE CONQUISTAS
+// =====================================
 
 function conteudoConquistas(t) {
+
     const dados = CONQUISTAS[t.nome] || {
         insignias: [],
         campeonatos: {}
@@ -476,19 +590,26 @@ function conteudoConquistas(t) {
                 `).join("")}
             </div>
         `
-        : `<p class="vazio">
-            Nenhuma insígnia conquistada ainda.
-        </p>`;
+        : `
+            <p class="vazio">
+                Nenhuma insígnia conquistada ainda.
+            </p>
+        `;
 
     const galeriaCampeonatos = campeonatos.length
         ? `
             <div class="lista-campeonatos">
+
                 ${campeonatos.map(c => {
-                    const resultado = resultadoCampeonato(c.posicao);
+
+                    const resultado = resultadoCampeonato(
+                        c.posicao
+                    );
 
                     return `
-                        <div class="card-campeonato"
-                             style="
+                        <div
+                            class="card-campeonato"
+                            style="
                                 display:flex;
                                 align-items:center;
                                 gap:14px;
@@ -498,8 +619,8 @@ function conteudoConquistas(t) {
                                 border-left:4px solid ${resultado.cor};
                                 border-radius:12px;
                                 background:rgba(128,128,128,0.07);
-                             ">
-
+                            "
+                        >
                             <img
                                 data-conquista="${esc(c.arquivo)}"
                                 alt="${esc(c.nome)}"
@@ -538,37 +659,50 @@ function conteudoConquistas(t) {
                 }).join("")}
             </div>
         `
-        : `<p class="vazio">
-            Nenhuma participação em campeonatos registrada.
-        </p>`;
+        : `
+            <p class="vazio">
+                Nenhuma participação em campeonatos registrada.
+            </p>
+        `;
 
     return `
         <div class="bloco-conquistas">
+
             <h3>🎖️ Insígnias Conquistadas</h3>
+
             ${galeriaInsignias}
 
             <h3 style="margin-top:24px;">
                 🏆 Histórico de Campeonatos
             </h3>
+
             ${galeriaCampeonatos}
+
         </div>
     `;
 }
 
-// ABA DE RIVALIDADES - CAIXA DE TEXTO SIMPLES
+// =====================================
+// CONTEÚDO DE RIVALIDADES
+// =====================================
 
 function conteudoRivalidades(t) {
+
     const historia = RIVALIDADES[t.nome];
 
     if (!historia) {
-        return `<p class="vazio">
-            As rivalidades deste treinador serão reveladas em breve.
-        </p>`;
+        return `
+            <p class="vazio">
+                As rivalidades deste treinador
+                serão reveladas em breve.
+            </p>
+        `;
     }
 
     return `
-        <div class="caixa-rivalidade"
-             style="
+        <div
+            class="caixa-rivalidade"
+            style="
                 padding:16px;
                 border-radius:12px;
                 border:1px solid rgba(150,150,150,0.3);
@@ -577,32 +711,43 @@ function conteudoRivalidades(t) {
                 font-size:14px;
                 white-space:pre-line;
                 overflow-wrap:break-word;
-             ">${esc(historia)}</div>
+            "
+        >${esc(historia)}</div>
     `;
 }
 
+// =====================================
 // CONTEÚDO DAS ABAS
+// =====================================
 
 function conteudo(t, aba) {
 
     if (aba === "pokemons") {
+
         const lista = t.pokemonsPrincipais || [];
 
         return lista.length
-            ? `<div class="galeria">
-                ${lista.map(p => `
-                    <div class="mini-card">
-                        <img
-                            alt="${esc(p.nome)}"
-                            loading="lazy"
-                        >
-                        <span>${esc(p.nome)}</span>
-                    </div>
-                `).join("")}
-            </div>`
-            : `<p class="vazio">
-                Pokémons principais serão adicionados em breve.
-            </p>`;
+            ? `
+                <div class="galeria">
+
+                    ${lista.map(p => `
+                        <div class="mini-card">
+                            <img
+                                alt="${esc(p.nome)}"
+                                loading="lazy"
+                            >
+                            <span>${esc(p.nome)}</span>
+                        </div>
+                    `).join("")}
+
+                </div>
+            `
+            : `
+                <p class="vazio">
+                    Pokémons principais serão
+                    adicionados em breve.
+                </p>
+            `;
     }
 
     if (aba === "rivalidades") {
@@ -616,13 +761,15 @@ function conteudo(t, aba) {
     return "";
 }
 
-// MONTAGEM DOS CARTÕES
+// =====================================
+// MONTAGEM DO RANKING
+// =====================================
 
 let categoriaAnterior = "";
 
 treinadores.forEach((t, i) => {
 
-    const pos = t.jogador ? t.posicaoOficial : i + 1;
+    const pos = t.posicaoOficial ?? (i + 1);
 
     const categoria = pos <= 10
         ? "mundial"
@@ -631,17 +778,20 @@ treinadores.forEach((t, i) => {
             : "disputa";
 
     if (categoria !== categoriaAnterior) {
+
         const faixas = {
             mundial: [
                 "🏆 CLASSIFICADOS PARA O MUNDIAL",
                 "1º ao 10º lugar",
                 "faixa-mundial"
             ],
+
             qualificatorias: [
                 "🌍 CLASSIFICADOS PARA AS QUALIFICATÓRIAS",
                 "11º ao 27º lugar",
                 "faixa-qualificatorias"
             ],
+
             disputa: [
                 "⚔️ DISPUTANDO VAGA NAS QUALIFICATÓRIAS",
                 "28º lugar em diante",
@@ -650,12 +800,15 @@ treinadores.forEach((t, i) => {
         };
 
         faixa(...faixas[categoria]);
+
         categoriaAnterior = categoria;
     }
 
     const li = document.createElement("li");
 
-    li.className = `card-treinador ${t.jogador ? "jogador" : "npc"}`;
+    li.className = `card-treinador ${
+        t.jogador ? "jogador" : "npc"
+    }`;
 
     if (pos <= 3) {
         li.classList.add(
@@ -666,13 +819,17 @@ treinadores.forEach((t, i) => {
     const abas = [
         ["pokemons", "🐉 Pokémons Principais"],
         ["rivalidades", "⚔️ Rivalidades"],
-        ...(t.jogador ? [["conquistas", "🏅 Conquistas"]] : [])
+
+        ...(t.jogador
+            ? [["conquistas", "🏅 Conquistas"]]
+            : [])
     ];
 
     const id = `treinador-${i}`;
 
     li.innerHTML = `
         <div class="topo-card">
+
             <img
                 class="foto-treinador"
                 src="${esc(t.imagem)}"
@@ -681,7 +838,10 @@ treinadores.forEach((t, i) => {
             >
 
             <div class="info">
-                <strong>${pos}º — ${esc(t.nome)}</strong>
+
+                <strong>
+                    ${pos}º — ${esc(t.nome)}
+                </strong>
 
                 <span class="pokemon-destaque">
                     Pokémon principal: ${esc(t.pokemon)}
@@ -695,10 +855,12 @@ treinadores.forEach((t, i) => {
                 <span class="pontuacao">
                     ⭐ ${t.pontos} pontos
                 </span>
+
             </div>
         </div>
 
         <div class="botoes-abas">
+
             ${abas.map(([aba, titulo]) => `
                 <button
                     type="button"
@@ -711,6 +873,7 @@ treinadores.forEach((t, i) => {
                     <span class="seta">▾</span>
                 </button>
             `).join("")}
+
         </div>
 
         <div
@@ -721,9 +884,11 @@ treinadores.forEach((t, i) => {
     `;
 
     const painel = li.querySelector(".painel-aba");
+
     const botoes = li.querySelectorAll(".botao-aba");
 
     botoes.forEach(botao => {
+
         botao.addEventListener("click", () => {
 
             const aberta =
@@ -741,7 +906,12 @@ treinadores.forEach((t, i) => {
                 : conteudo(t, botao.dataset.aba);
 
             if (!aberta) {
-                botao.setAttribute("aria-expanded", "true");
+
+                botao.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
+
                 botao.classList.add("ativo");
 
                 configurarImagens(
