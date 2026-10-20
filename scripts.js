@@ -42,10 +42,12 @@ const CAMPEONATOS = {
         nome: "Campeonato de Iniciantes",
         arquivo: "Campeonato de Iniciantes"
     },
+
     punhos: {
         nome: "Punhos de Ferro",
         arquivo: "Punhos de Ferro"
     },
+
     festival: {
         nome: "Festival Pokémon",
         arquivo: "Festival Pokémon"
@@ -62,6 +64,7 @@ const CAMPEONATOS = {
 // Ausente = não participou
 
 const CONQUISTAS = {
+
     Bibi: {
         insignias: ["lutador", "planta", "pedra", "valley"],
         campeonatos: {
@@ -145,6 +148,13 @@ Já Hiro entrou nessa lista por um motivo inusitado: o Quilladin de Bibi desenvo
 // =====================================
 // LISTA COMPLETA DOS TREINADORES
 // =====================================
+//
+// posicaoOficial = posição mostrada no ranking
+//
+// As posições informadas pelo mestre são fixas.
+// Os novos pontos estimados são provisórios.
+//
+// =====================================
 
 const treinadores = [
 
@@ -152,53 +162,132 @@ const treinadores = [
     // NPCS DO RANKING
     // =================================
 
-    treinador("Red", "Mega Charizard X", 610, [
-        sprite("Mega Charizard X", "Zard X Red"),
-        sprite("Tyranitar", "Tyranitar Red"),
-        sprite("Espeon", "Espeon Red")
-    ]),
+    {
+        ...treinador("Red", "Mega Charizard X", 610, [
+            sprite("Mega Charizard X", "Zard X Red"),
+            sprite("Tyranitar", "Tyranitar Red"),
+            sprite("Espeon", "Espeon Red")
+        ]),
+        posicaoOficial: 1
+    },
 
-    treinador("Cynthia", "Mega Garchomp", 601, [
-        sprite("Mega Garchomp", "Chomp Cynthia"),
-        sprite("Lucario", "Lucario Cynthia"),
-        sprite("Spiritomb", "Spritomb Cynthia")
-    ]),
+    {
+        ...treinador("Cynthia", "Mega Garchomp", 601, [
+            sprite("Mega Garchomp", "Chomp Cynthia"),
+            sprite("Lucario", "Lucario Cynthia"),
+            sprite("Spiritomb", "Spritomb Cynthia")
+        ]),
+        posicaoOficial: 2
+    },
 
-    treinador("Ash", "Mega Lucario", 592, [
-        sprite("Greninja", "Greninja Ash"),
-        sprite("Infernape", "Infernape Ash"),
-        sprite("Pikachu", "Pikachu Ash")
-    ]),
+    {
+        ...treinador("Ash", "Mega Lucario", 592, [
+            sprite("Greninja", "Greninja Ash"),
+            sprite("Infernape", "Infernape Ash"),
+            sprite("Pikachu", "Pikachu Ash")
+        ]),
+        posicaoOficial: 3
+    },
 
-    treinador("Yellow", "Mega Raichu Y", 584, [
-        sprite("Mega Raichu Y", "Mega Raichu Y Y"),
-        sprite("Golisopod", "Golisopod Y"),
-        sprite("Rhyperior", "Rhyperior Y")
-    ]),
+    {
+        ...treinador("Yellow", "Mega Raichu Y", 584, [
+            sprite("Mega Raichu Y", "Mega Raichu Y Y"),
+            sprite("Golisopod", "Golisopod Y"),
+            sprite("Rhyperior", "Rhyperior Y")
+        ]),
+        posicaoOficial: 4
+    },
 
-    treinador("Callen", "Greninja Forma Callen", 575, [
-        sprite("Mega Greninja", "Mega greninja Kallen"),
-        sprite("Delphox", "Delphox Kallen"),
-        sprite("Chesnaught", "Chesnaught Kallen")
-    ]),
+    {
+        ...treinador("Callen", "Greninja Forma Callen", 575, [
+            sprite("Mega Greninja", "Mega greninja Kallen"),
+            sprite("Delphox", "Delphox Kallen"),
+            sprite("Chesnaught", "Chesnaught Kallen")
+        ]),
+        posicaoOficial: 5
+    },
 
-    treinador("Ethan", "Mega Typhlosion", 566, [
-        sprite("Typhlosion", "typlosion Ethan"),
-        sprite("Donphan", "Donphan Ethan"),
-        sprite("Heracross", "Heracross Ethan")
-    ]),
+    {
+        ...treinador("Ethan", "Mega Typhlosion", 566, [
+            sprite("Typhlosion", "typlosion Ethan"),
+            sprite("Donphan", "Donphan Ethan"),
+            sprite("Heracross", "Heracross Ethan")
+        ]),
+        posicaoOficial: 6
+    },
 
-    treinador("Alder", "Mega Volcarona", 558, [
-        sprite("Volcarona", "Volcarona Alder"),
-        sprite("Bouffalant", "bouffalant Alder"),
-        sprite("Amoonguss", "amoonguss Alder")
-    ]),
+    {
+        ...treinador("Alder", "Mega Volcarona", 558, [
+            sprite("Volcarona", "Volcarona Alder"),
+            sprite("Bouffalant", "bouffalant Alder"),
+            sprite("Amoonguss", "amoonguss Alder")
+        ]),
+        posicaoOficial: 7
+    },
 
-    treinador("Alain", "Mega Charizard X", 549, [
-        sprite("Mega Charizard X", "Zard X Alain"),
-        sprite("Metagross", "Metagross Alain"),
-        sprite("Weavile", "Weavile Alain")
-    ]),
+    {
+        ...treinador("Alain", "Mega Charizard X", 549, [
+            sprite("Mega Charizard X", "Zard X Alain"),
+            sprite("Metagross", "Metagross Alain"),
+            sprite("Weavile", "Weavile Alain")
+        ]),
+        posicaoOficial: 8
+    },
+
+    // Leaf assume o antigo lugar de Gladion.
+
+    {
+        ...treinador("Leaf", "Não revelado", 544),
+        imagem: P + "Leaf.jpg",
+        posicaoOficial: 9
+    },
+
+    {
+        ...treinador("Blue", "Mega Blastoise", 531, [
+            sprite("Mega Blastoise", "Mega Blastoise Blue"),
+            sprite("Arcanine", "Arcanine Blue"),
+            sprite("Scizor", "scizor Blue")
+        ]),
+        posicaoOficial: 10
+    },
+
+    {
+        ...treinador("Iris", "Mega Haxorus", 514),
+        posicaoOficial: 11
+    },
+
+    {
+        ...treinador("Silver", "Mega Gengar", 505),
+        posicaoOficial: 12
+    },
+
+    {
+        ...treinador("Paul", "Mega Electivire", 496),
+        posicaoOficial: 13
+    },
+
+    {
+        ...treinador("N", "Mega Zoroark", 488),
+        posicaoOficial: 14
+    },
+
+    {
+        ...treinador("Bea", "Mega Hitmontop", 479),
+        posicaoOficial: 15
+    },
+
+    {
+        ...treinador("Lance", "Mega Dragonite", 470),
+        posicaoOficial: 16
+    },
+
+    {
+        ...treinador("Lorelei", "Mega Aurorus", 461),
+        posicaoOficial: 17
+    },
+
+    // Gladion foi movido do 9º para o 18º lugar.
+    // Seus Pokémon e seus 540 pontos foram preservados.
 
     {
         ...treinador("Gladion", "Mega Lycanroc", 540, [
@@ -213,36 +302,73 @@ const treinadores = [
                 "Porygon  Z Gladion"
             ])
         ]),
-        imagem: P + "Gladion.jpg"
+        imagem: P + "Gladion.jpg",
+        posicaoOficial: 18
     },
 
-    treinador("Blue", "Mega Blastoise", 531, [
-        sprite("Mega Blastoise", "Mega Blastoise Blue"),
-        sprite("Arcanine", "Arcanine Blue"),
-        sprite("Scizor", "scizor Blue")
-    ]),
+    {
+        ...treinador("Blaze", "Mega Arcanine", 444),
+        posicaoOficial: 19
+    },
 
-    ...[
-        ["Iris", "Mega Haxorus", 514],
-        ["Silver", "Mega Gengar", 505],
-        ["Paul", "Mega Electivire", 496],
-        ["N", "Mega Zoroark", 488],
-        ["Bea", "Mega Hitmontop", 479],
-        ["Lance", "Mega Dragonite", 470],
-        ["Lorelei", "Mega Aurorus", 461],
-        ["Padre Dough", "Mega Umbreon", 452],
-        ["Blaze", "Mega Arcanine", 444],
-        ["Drew", "Mega Flygon", 426],
-        ["Tyrion", "Mega Snorlax", 418],
-        ["Miriam", "Mega Empoleon", 409],
-        ["Marnie", "Mega Grimmsnarl", 405],
-        ["Sawyer", "Mega Sceptile", 400]
-    ].map(([nome, pokemon, pontos]) =>
-        treinador(nome, pokemon, pontos)
-    ),
+    // Novos NPCs com posições informadas.
+
+    {
+        ...treinador("Rosa", "Não revelado", 438),
+        imagem: P + "Rosa.jpg",
+        posicaoOficial: 20
+    },
+
+    {
+        ...treinador("Ritchie", "Não revelado", 432),
+        imagem: P + "Ritchie.jpg",
+        posicaoOficial: 21
+    },
+
+    {
+        ...treinador("Lucas", "Não revelado", 429),
+        imagem: P + "Lucas.jpg",
+        posicaoOficial: 22
+    },
+
+    {
+        ...treinador("Drew", "Mega Flygon", 426),
+        posicaoOficial: 23
+    },
+
+    // Brendon substitui Tyrion.
+    // Hilda substitui Padre Dough.
+    // Posições provisórias para evitar duplicações.
+
+    {
+        ...treinador("Brendon", "Não revelado", 418),
+        imagem: P + "Brendon.jpg",
+        posicaoOficial: 24
+    },
+
+    {
+        ...treinador("Hilda", "Não revelado", 452),
+        imagem: P + "Hilda.jpg",
+        posicaoOficial: 25
+    },
+
+    {
+        ...treinador("Miriam", "Mega Empoleon", 409),
+        posicaoOficial: 26
+    },
+
+    {
+        ...treinador("Marnie", "Mega Grimmsnarl", 405),
+        posicaoOficial: 27
+    },
+
+    {
+        ...treinador("Sawyer", "Mega Sceptile", 400),
+        posicaoOficial: 28
+    },
 
     // =================================
-    // JOGADORES DA CAMPANHA
+    // JOGADORES ORIGINAIS DA CAMPANHA
     // =================================
 
     {
@@ -325,15 +451,18 @@ const treinadores = [
     },
 
     // =================================
-    // NOVOS PERSONAGENS DO RANKING
+    // SEIS PERSONAGENS ANTERIORES
     // =================================
-    // Pontuações provisórias estimadas.
-    // Posições oficiais informadas pelo mestre.
-    // Pokémon principais atualizados.
+    //
+    // Atenção:
+    // Hyuuga agora usa duas letras U.
+    // O nome da imagem também foi atualizado.
+    //
+    // =================================
 
     {
-        ...treinador("Hyuga", "Greninja Hyuuga", 184),
-        imagem: P + "Hyuga.webp",
+        ...treinador("Hyuuga", "Greninja Hyuuga", 184),
+        imagem: P + "Hyuuga.webp",
         jogador: true,
         posicaoOficial: 77
     },
@@ -371,28 +500,67 @@ const treinadores = [
         imagem: P + "Lúcia Stone.webp",
         jogador: true,
         posicaoOficial: 105
+    },
+
+    // =================================
+    // NOVOS PERSONAGENS DO RANKING
+    // =================================
+    //
+    // Nomes e extensões iguais ao print.
+    // Pontos estimados provisoriamente.
+    //
+    // =================================
+
+    {
+        ...treinador("Bruno suzuky", "Não revelado", 196),
+        imagem: P + "Bruno suzuky.png",
+        jogador: true,
+        posicaoOficial: 69
+    },
+
+    {
+        ...treinador("Maya", "Não revelado", 194),
+        imagem: P + "Maya.png",
+        jogador: true,
+        posicaoOficial: 71
+    },
+
+    {
+        ...treinador("Lumi", "Não revelado", 192),
+        imagem: P + "Lumi.png",
+        jogador: true,
+        posicaoOficial: 73
+    },
+
+    {
+        ...treinador("Leon Filho", "Não revelado", 180),
+        imagem: P + "Leon Filho.png",
+        jogador: true,
+        posicaoOficial: 80
     }
 ];
 
 // =====================================
 // ORDENAÇÃO DO RANKING
 // =====================================
+//
+// Todos os personagens possuem posição oficial.
+// Assim não existem posições duplicadas e
+// ninguém muda de posição por estar em outra
+// parte do código.
+//
+// =====================================
 
 treinadores.sort((a, b) => {
 
-    const posA = a.posicaoOficial ?? null;
-    const posB = b.posicaoOficial ?? null;
+    const posA = a.posicaoOficial ?? Infinity;
+    const posB = b.posicaoOficial ?? Infinity;
 
-    if (posA !== null && posB !== null) {
+    if (posA !== posB) {
         return posA - posB;
     }
 
-    if (posA === null && posB === null) {
-        return b.pontos - a.pontos;
-    }
-
-    // Os NPCs cadastrados ocupam as posições 1 a 24.
-    return posA === null ? -1 : 1;
+    return b.pontos - a.pontos;
 });
 
 const ranking = document.getElementById("ranking");
