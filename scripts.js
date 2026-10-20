@@ -332,8 +332,8 @@ const treinadores = [
     // Os Pokémon principais serão adicionados depois.
 
     {
-        ...treinador("Hyuga", "Não revelado", 184),
-        imagem: P + "Hyuga.webp",
+        ...treinador("Hyuuga", "Não revelado", 184),
+        imagem: P + "Hyuuga.webp",
         jogador: true,
         posicaoOficial: 77
     },
