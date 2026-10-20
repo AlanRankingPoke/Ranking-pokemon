@@ -329,45 +329,45 @@ const treinadores = [
     // =================================
     // Pontuações provisórias estimadas.
     // Posições oficiais informadas pelo mestre.
-    // Os Pokémon principais serão adicionados depois.
+    // Pokémon principais atualizados.
 
     {
-        ...treinador("Hyuuga", "Não revelado", 184),
-        imagem: P + "Hyuuga.webp",
+        ...treinador("Hyuga", "Greninja Hyuuga", 184),
+        imagem: P + "Hyuga.webp",
         jogador: true,
         posicaoOficial: 77
     },
 
     {
-        ...treinador("Arkyn", "Não revelado", 181),
+        ...treinador("Arkyn", "Mega Samurott", 181),
         imagem: P + "Arkyn.webp",
         jogador: true,
         posicaoOficial: 79
     },
 
     {
-        ...treinador("Yhgom", "Não revelado", 178),
+        ...treinador("Yhgom", "Mega Flygon", 178),
         imagem: P + "Yhgom.webp",
         jogador: true,
         posicaoOficial: 81
     },
 
     {
-        ...treinador("Liora", "Não revelado", 167),
+        ...treinador("Liora", "Mega Poliwrath", 167),
         imagem: P + "Liora.webp",
         jogador: true,
         posicaoOficial: 92
     },
 
     {
-        ...treinador("Ryo", "Não revelado", 164),
+        ...treinador("Ryo", "Mega Lucario", 164),
         imagem: P + "Ryo.webp",
         jogador: true,
         posicaoOficial: 94
     },
 
     {
-        ...treinador("Lucia Stone", "Não revelado", 150),
+        ...treinador("Lucia Stone", "Mega Incineroar", 150),
         imagem: P + "Lúcia Stone.webp",
         jogador: true,
         posicaoOficial: 105
@@ -379,8 +379,6 @@ const treinadores = [
 // =====================================
 
 treinadores.sort((a, b) => {
-    // NPCs têm suas posições determinadas pela pontuação.
-    // Jogadores e novos personagens têm posição oficial definida.
 
     const posA = a.posicaoOficial ?? null;
     const posB = b.posicaoOficial ?? null;
