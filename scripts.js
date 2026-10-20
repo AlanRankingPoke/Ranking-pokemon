@@ -152,14 +152,14 @@ Já Hiro entrou nessa lista por um motivo inusitado: o Quilladin de Bibi desenvo
 // posicaoOficial = posição mostrada no ranking
 //
 // As posições informadas pelo mestre são fixas.
-// Os novos pontos estimados são provisórios.
+// Os pontos novos ainda são provisórios.
 //
 // =====================================
 
 const treinadores = [
 
     // =================================
-    // NPCS DO RANKING
+    // TOP 10
     // =================================
 
     {
@@ -234,10 +234,8 @@ const treinadores = [
         posicaoOficial: 8
     },
 
-    // Leaf assume o antigo lugar de Gladion.
-
     {
-        ...treinador("Leaf", "Não revelado", 544),
+        ...treinador("Leaf", "Mega Venusaur", 544),
         imagem: P + "Leaf.jpg",
         posicaoOficial: 9
     },
@@ -250,6 +248,10 @@ const treinadores = [
         ]),
         posicaoOficial: 10
     },
+
+    // =================================
+    // QUALIFICATÓRIAS
+    // =================================
 
     {
         ...treinador("Iris", "Mega Haxorus", 514),
@@ -286,9 +288,6 @@ const treinadores = [
         posicaoOficial: 17
     },
 
-    // Gladion foi movido do 9º para o 18º lugar.
-    // Seus Pokémon e seus 540 pontos foram preservados.
-
     {
         ...treinador("Gladion", "Mega Lycanroc", 540, [
             sprite("Mega Lycanroc", "Lyncarock Gladion"),
@@ -311,22 +310,20 @@ const treinadores = [
         posicaoOficial: 19
     },
 
-    // Novos NPCs com posições informadas.
-
     {
-        ...treinador("Rosa", "Não revelado", 438),
+        ...treinador("Rosa", "Mega Serperior", 438),
         imagem: P + "Rosa.jpg",
         posicaoOficial: 20
     },
 
     {
-        ...treinador("Ritchie", "Não revelado", 432),
+        ...treinador("Ritchie", "Mega Raichu X", 432),
         imagem: P + "Ritchie.jpg",
         posicaoOficial: 21
     },
 
     {
-        ...treinador("Lucas", "Não revelado", 429),
+        ...treinador("Lucas", "Mega Infernape", 429),
         imagem: P + "Lucas.jpg",
         posicaoOficial: 22
     },
@@ -336,18 +333,14 @@ const treinadores = [
         posicaoOficial: 23
     },
 
-    // Brendon substitui Tyrion.
-    // Hilda substitui Padre Dough.
-    // Posições provisórias para evitar duplicações.
-
     {
-        ...treinador("Brendon", "Não revelado", 418),
+        ...treinador("Brendon", "Mega Sceptile", 418),
         imagem: P + "Brendon.jpg",
         posicaoOficial: 24
     },
 
     {
-        ...treinador("Hilda", "Não revelado", 452),
+        ...treinador("Hilda", "Mega Emboar", 452),
         imagem: P + "Hilda.jpg",
         posicaoOficial: 25
     },
@@ -368,7 +361,7 @@ const treinadores = [
     },
 
     // =================================
-    // JOGADORES ORIGINAIS DA CAMPANHA
+    // JOGADORES ORIGINAIS
     // =================================
 
     {
@@ -451,13 +444,7 @@ const treinadores = [
     },
 
     // =================================
-    // SEIS PERSONAGENS ANTERIORES
-    // =================================
-    //
-    // Atenção:
-    // Hyuuga agora usa duas letras U.
-    // O nome da imagem também foi atualizado.
-    //
+    // SEIS PERSONAGENS ADICIONADOS
     // =================================
 
     {
@@ -503,37 +490,32 @@ const treinadores = [
     },
 
     // =================================
-    // NOVOS PERSONAGENS DO RANKING
-    // =================================
-    //
-    // Nomes e extensões iguais ao print.
-    // Pontos estimados provisoriamente.
-    //
+    // QUATRO NOVOS PERSONAGENS
     // =================================
 
     {
-        ...treinador("Bruno suzuky", "Não revelado", 196),
+        ...treinador("Bruno suzuky", "Mega Blaziken", 196),
         imagem: P + "Bruno suzuky.png",
         jogador: true,
         posicaoOficial: 69
     },
 
     {
-        ...treinador("Maya", "Não revelado", 194),
+        ...treinador("Maya", "Mega Empoleon", 194),
         imagem: P + "Maya.png",
         jogador: true,
         posicaoOficial: 71
     },
 
     {
-        ...treinador("Lumi", "Não revelado", 192),
+        ...treinador("Lumi", "Mega Claydol", 192),
         imagem: P + "Lumi.png",
         jogador: true,
         posicaoOficial: 73
     },
 
     {
-        ...treinador("Leon Filho", "Não revelado", 180),
+        ...treinador("Leon Filho", "Mega Charizard Y", 180),
         imagem: P + "Leon Filho.png",
         jogador: true,
         posicaoOficial: 80
@@ -542,13 +524,6 @@ const treinadores = [
 
 // =====================================
 // ORDENAÇÃO DO RANKING
-// =====================================
-//
-// Todos os personagens possuem posição oficial.
-// Assim não existem posições duplicadas e
-// ninguém muda de posição por estar em outra
-// parte do código.
-//
 // =====================================
 
 treinadores.sort((a, b) => {
