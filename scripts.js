@@ -89,7 +89,7 @@ const treinadores = [
   { ...treinador("Verso", "Mega Typhlosion", 200, [sprite("Donphan", "donphan Verso"), sprite("Typhlosion", "Typlosion Verso"), sprite("Whimsicott", "whimscott Verso", ["whimsicott Verso", "Whimsicott Verso", "Whimscott Verso", "whimscot Verso", "whimsicott verso"]), sprite("Bewear", "Bewear Verso")]), jogador: true, posicaoOficial: 68 },
   { ...treinador("Hiro", "Greninja", 182, [sprite("Decidueye", "decidueye Hiro"), sprite("Gabite", "Gabite Hiro"), sprite("Greninja", "Greninja Hiro"), sprite("Larvesta", "Larvesta Hiro"), sprite("Metang", "Metang Hiro")]), jogador: true, posicaoOficial: 78 },
   { ...treinador("Match", "Cinderace", 158, [sprite("Cinderace", "cinderace Match"), sprite("Delphox", "Delphox Match"), sprite("Rotom-Heat", "rotom-heat Match"), sprite("Turtonator", "turtonator Match")]), jogador: true, posicaoOficial: 95 },
-  { ...treinador("Kuran", "Feraligatr", 140, [sprite("Bellibolt", "bellibolt Kuran"), sprite("Feraligatr", "Feralighator Kuran"), sprite("Grovyle", "Groavyle Kuran"), sprite("Infernape", "infernape Kuran"), sprite("Noibat", "Noibat Kuran"), sprite("Ursaring", "Ursaring Kuran")]), jogador: true, posicaoOficial: 106 },
+  { ...treinador("Kuran", "Feraligatr", 140, [sprite("Bellibolt", "bellibolt Kuran"), sprite("Feraligatr", "Feralighator Kuran"), sprite("Grovyle", "Groavyle Kuran"), sprite("Infernape", "infernape Kuran"), sprite("Noibat", "Noibat Kuran"), sprite("Ursaring", "Ursaring Kuran")]), jogador: true, posicaoOficial: 105 },
 
   // Demais participantes são NPCs.
   { ...treinador("Bruno suzuky", "Mega Blaziken", 196), imagem: P + "Bruno suzuky.png", posicaoOficial: 69 },
@@ -97,20 +97,19 @@ const treinadores = [
   { ...treinador("Lumi", "Mega Claydol", 192), imagem: P + "Lumi.png", posicaoOficial: 73 },
   { ...treinador("Hyuuga", "Greninja Hyuuga", 184), imagem: P + "Hyuuga.webp", posicaoOficial: 77 },
   { ...treinador("Arkyn", "Mega Samurott", 181), imagem: P + "Arkyn.webp", posicaoOficial: 79 },
-  { ...treinador("Leon Filho", "Mega Charizard Y", 223), imagem: P + "Leon Filho.png", posicaoOficial: 80 },
+  { ...treinador("Leon Filho", "Mega Charizard Y", 223), imagem: P + "Leon Filho.png", posicaoOficial: 59 },
   { ...treinador("Yhgom", "Mega Flygon", 178), imagem: P + "Yhgom.webp", posicaoOficial: 81 },
   { ...treinador("Liora", "Mega Poliwrath", 167), imagem: P + "Liora.webp", posicaoOficial: 92 },
   { ...treinador("Ryo", "Mega Lucario", 164), imagem: P + "Ryo.webp", posicaoOficial: 94 },
-  { ...treinador("Lucia Stone", "Mega Incineroar", 150), imagem: P + "Lúcia Stone.webp", posicaoOficial: 105 }
+  { ...treinador("Lucia Stone", "Mega Incineroar", 150), imagem: P + "Lúcia Stone.webp", posicaoOficial: 104 }
 ];
 
-// Ranking automático: maior pontuação primeiro.
-// Em caso de empate, preserva a ordem anterior cadastrada.
-// As posições exibidas representam os treinadores cadastrados no site.
+// Posições oficiais do ranking mundial: há outros treinadores não cadastrados.
+// NÃO renumerar de 1 a 44. Ordenar pelas posições oficiais existentes.
+// As pontuações permanecem registradas, mas não substituem a posição oficial.
 treinadores.sort((a, b) =>
-  b.pontos - a.pontos || (a.posicaoOficial ?? Infinity) - (b.posicaoOficial ?? Infinity)
+  (a.posicaoOficial ?? Infinity) - (b.posicaoOficial ?? Infinity) || b.pontos - a.pontos
 );
-treinadores.forEach((t, i) => { t.posicaoOficial = i + 1; });
 
 const ranking = document.getElementById("ranking");
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
