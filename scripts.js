@@ -11,6 +11,8 @@ const INSIGNIAS = {
   dragao: { nome: "Dragão", arquivo: "Dragão" },
   lutador: { nome: "Lutador", arquivo: "Lutador" },
   pedra: { nome: "Pedra", arquivo: "Pedra" },
+  eletrico: { nome: "Elétrico", arquivo: "Eletrico" },
+  gelo: { nome: "Gelo", arquivo: "Gelo" },
   planta: { nome: "Planta", arquivo: "Planta" },
   valley: { nome: "Valley", arquivo: "Valley" }
 };
@@ -24,12 +26,12 @@ const CAMPEONATOS = {
 // Campeonato: 0 = participou sem pódio; 1 = campeão; 2 = vice; 3 = terceiro.
 // Ausência da chave significa que o jogador não participou.
 const CONQUISTAS = {
-  Bibi: { insignias: ["lutador", "planta", "pedra", "valley"], campeonatos: { iniciantes: 0, punhos: 2, festival: 0 } },
-  Hana: { insignias: ["planta", "dragao", "lutador", "valley"], campeonatos: { iniciantes: 0, punhos: 0, festival: 1 } },
-  Hiro: { insignias: ["planta", "pedra", "valley"], campeonatos: { iniciantes: 1, punhos: 3, festival: 2 } },
-  Verso: { insignias: ["lutador", "planta", "valley"], campeonatos: { iniciantes: 2, punhos: 1, festival: 0 } },
+  Bibi: { insignias: ["lutador", "planta", "pedra", "valley", "eletrico"], campeonatos: { iniciantes: 0, punhos: 2, festival: 0 } },
+  Hana: { insignias: ["planta", "dragao", "lutador", "valley", "gelo"], campeonatos: { iniciantes: 0, punhos: 0, festival: 1 } },
+  Hiro: { insignias: ["planta", "pedra", "valley", "eletrico"], campeonatos: { iniciantes: 1, punhos: 3, festival: 2 } },
+  Verso: { insignias: ["lutador", "planta", "valley", "eletrico", "pedra"], campeonatos: { iniciantes: 2, punhos: 1, festival: 0 } },
   Match: { insignias: ["lutador", "planta", "dragao", "valley"], campeonatos: { iniciantes: 3, festival: 3 } },
-  Kuran: { insignias: ["dragao", "planta"], campeonatos: { punhos: 0, festival: 0 } }
+  Kuran: { insignias: ["dragao", "planta", "pedra", "gelo"], campeonatos: { punhos: 0, festival: 0 } }
 };
 
 const RIVALIDADES = {
@@ -66,16 +68,16 @@ const treinadores = [
   { ...treinador("Silver", "Mega Gengar", 505), posicaoOficial: 12 },
   { ...treinador("Paul", "Mega Electivire", 496), posicaoOficial: 13 },
   { ...treinador("N", "Mega Zoroark", 488), posicaoOficial: 14 },
-  { ...treinador("Bea", "Mega Hitmontop", 479), posicaoOficial: 15 },
-  { ...treinador("Lance", "Mega Dragonite", 470), posicaoOficial: 16 },
-  { ...treinador("Lorelei", "Mega Aurorus", 461), posicaoOficial: 17 },
-  { ...treinador("Gladion", "Mega Lycanroc", 540, [sprite("Mega Lycanroc", "Lyncarock Gladion"), sprite("Meowscarada", "Meowscarada Gladion"), sprite("Porygon-Z", "Porygon Z Gladion", ["Porygon-Z Gladion", "Porygon z Gladion", "PorygonZ Gladion", "porygon z Gladion", "porygon-z Gladion", "Porygon  Z Gladion"])]), imagem: P + "Gladion.jpg", posicaoOficial: 18 },
+  { ...treinador("Bea", "Mega Hitmontop", 403), posicaoOficial: 15 },
+  { ...treinador("Lance", "Mega Dragonite", 426), posicaoOficial: 16 },
+  { ...treinador("Lorelei", "Mega Aurorus", 412), posicaoOficial: 17 },
+  { ...treinador("Gladion", "Mega Lycanroc", 455, [sprite("Mega Lycanroc", "Lyncarock Gladion"), sprite("Meowscarada", "Meowscarada Gladion"), sprite("Porygon-Z", "Porygon Z Gladion", ["Porygon-Z Gladion", "Porygon z Gladion", "PorygonZ Gladion", "porygon z Gladion", "porygon-z Gladion", "Porygon  Z Gladion"])]), imagem: P + "Gladion.jpg", posicaoOficial: 18 },
   { ...treinador("Blaze", "Mega Arcanine", 444), posicaoOficial: 19 },
   { ...treinador("Rosa", "Mega Serperior", 438), imagem: P + "Rosa.jpg", posicaoOficial: 20 },
   { ...treinador("Ritchie", "Mega Raichu X", 432), imagem: P + "Ritchie.jpg", posicaoOficial: 21 },
-  { ...treinador("Lucas", "Mega Infernape", 429), imagem: P + "Lucas.jpg", posicaoOficial: 22 },
+  { ...treinador("Lucas", "Mega Infernape", 478), imagem: P + "Lucas.jpg", posicaoOficial: 22 },
   { ...treinador("Drew", "Mega Flygon", 426), posicaoOficial: 23 },
-  { ...treinador("Brendon", "Mega Sceptile", 418), imagem: P + "Brendon.jpg", posicaoOficial: 24 },
+  { ...treinador("Brendon", "Mega Sceptile", 447), imagem: P + "Brendon.jpg", posicaoOficial: 24 },
   { ...treinador("Hilda", "Mega Emboar", 452), imagem: P + "Hilda.jpg", posicaoOficial: 25 },
   { ...treinador("Miriam", "Mega Empoleon", 409), posicaoOficial: 26 },
   { ...treinador("Marnie", "Mega Grimmsnarl", 405), posicaoOficial: 27 },
@@ -95,19 +97,20 @@ const treinadores = [
   { ...treinador("Lumi", "Mega Claydol", 192), imagem: P + "Lumi.png", posicaoOficial: 73 },
   { ...treinador("Hyuuga", "Greninja Hyuuga", 184), imagem: P + "Hyuuga.webp", posicaoOficial: 77 },
   { ...treinador("Arkyn", "Mega Samurott", 181), imagem: P + "Arkyn.webp", posicaoOficial: 79 },
-  { ...treinador("Leon Filho", "Mega Charizard Y", 180), imagem: P + "Leon Filho.png", posicaoOficial: 80 },
+  { ...treinador("Leon Filho", "Mega Charizard Y", 223), imagem: P + "Leon Filho.png", posicaoOficial: 80 },
   { ...treinador("Yhgom", "Mega Flygon", 178), imagem: P + "Yhgom.webp", posicaoOficial: 81 },
   { ...treinador("Liora", "Mega Poliwrath", 167), imagem: P + "Liora.webp", posicaoOficial: 92 },
   { ...treinador("Ryo", "Mega Lucario", 164), imagem: P + "Ryo.webp", posicaoOficial: 94 },
   { ...treinador("Lucia Stone", "Mega Incineroar", 150), imagem: P + "Lúcia Stone.webp", posicaoOficial: 105 }
 ];
 
-// Ordenação pelas posições oficiais, sem renumerar os NPCs.
-treinadores.sort((a, b) => {
-  const posA = a.posicaoOficial ?? Infinity;
-  const posB = b.posicaoOficial ?? Infinity;
-  return posA !== posB ? posA - posB : b.pontos - a.pontos;
-});
+// Ranking automático: maior pontuação primeiro.
+// Em caso de empate, preserva a ordem anterior cadastrada.
+// As posições exibidas representam os treinadores cadastrados no site.
+treinadores.sort((a, b) =>
+  b.pontos - a.pontos || (a.posicaoOficial ?? Infinity) - (b.posicaoOficial ?? Infinity)
+);
+treinadores.forEach((t, i) => { t.posicaoOficial = i + 1; });
 
 const ranking = document.getElementById("ranking");
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({
